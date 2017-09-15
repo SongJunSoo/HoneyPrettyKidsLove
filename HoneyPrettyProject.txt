@@ -1,4 +1,4 @@
-1. git »ç¿ë ¸í·É¾î 
+1. git ì‚¬ìš© ëª…ë ¹ì–´ 
 
  git init
  git add *
@@ -6,6 +6,6 @@
  git config --global user.email "jssong80@naver.com"
  git config --global user.name "SongJunSoo"
  
-2. °­»ç´Ô github ÁÖ¼Ò 
+2. ê°•ì‚¬ë‹˜ github ì£¼ì†Œ 
  https://github.com/nashorn74/ProtoType/blob/
  master/app/src/main/res/layout/activity_main.xml
