@@ -1,8 +1,0 @@
-1. git 사용 명령어 
-
- git init
- git add *
- git commit -m "first commit"
- git config --global user.email "jssong80@naver.com"
- git config --global user.name "SongJunSoo"
- 
