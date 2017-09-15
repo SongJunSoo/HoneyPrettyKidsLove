@@ -27,13 +27,14 @@
         android:background="#ff0000" />
 
     </LinearLayout>
-    
-    <ImageView
+
+    <com.github.siyamed.shapeimageview.RoundedImageView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="40"
-        android:background="@drawable/pgl143"
-        />
+        android:layout_height="match_parent"
+        android:src="@drawable/pgl143"
+        app:siRadius="6dp"
+        app:siBorderWidth="6dp"
+        app:siSquare="true"/>
 
 
 </LinearLayout>
