@@ -26,4 +26,11 @@
 4) 카카오 오븐 : 프로토 타입 만드는 사이트
 5) https://github.com/nashorn74/ProtoType/
 6) https://github.com/SongJunSoo/HoneyPrettyKidsLove
+7) 모비즌 : 안드로이드 PC화면 미러링
 
+
+향상 for문 사용
+for(BankModel1 bank : bankmodel3.getBody())
+{
+
+}
