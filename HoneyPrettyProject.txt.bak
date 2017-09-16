@@ -1,11 +1,29 @@
-1. git ��� ���ɾ� 
+#####################################################################################
+2017.09.15 수업내용
+#####################################################################################
+1. git 사용 명령어
 
  git init
  git add *
  git commit -m "first commit"
  git config --global user.email "jssong80@naver.com"
  git config --global user.name "SongJunSoo"
- 
-2. ����� github �ּ� 
+
+2. 강사님 github 주소
  https://github.com/nashorn74/ProtoType/blob/
  master/app/src/main/res/layout/activity_main.xml
+
+
+#####################################################################################
+2017.09.16 수업내용
+#####################################################################################
+
+수업관련 사이트 :
+
+1) http://json.parser.online.fr/ : json parser
+2) POSTMAN : 크롬에서 확장프로그램 추가
+3) http://troy.labs.daum.net/ : 모바일 해상도 보는 화면
+4) 카카오 오븐 : 프로토 타입 만드는 사이트
+5) https://github.com/nashorn74/ProtoType/
+6) https://github.com/SongJunSoo/HoneyPrettyKidsLove
+
