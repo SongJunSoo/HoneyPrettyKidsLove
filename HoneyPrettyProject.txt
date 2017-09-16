@@ -29,8 +29,17 @@
 7) 모비즌 : 안드로이드 PC화면 미러링
 
 
+<<<<<<< HEAD
+=======
+8)
+>>>>>>> e94ae06d0315ede47cac06fb5fa0a4494f30dc18
 향상 for문 사용
 for(BankModel1 bank : bankmodel3.getBody())
 {
 
 }
+<<<<<<< HEAD
+=======
+
+9) kenshi@nate.com / 김봉섭
+>>>>>>> e94ae06d0315ede47cac06fb5fa0a4494f30dc18
