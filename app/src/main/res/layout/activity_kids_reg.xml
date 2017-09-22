@@ -66,8 +66,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="2"
                 android:ems="10"
-                android:inputType="textPersonName"
-                android:text="아이 이름 또는 애칭 입력" />
+                android:hint="아이 이름 또는 애칭 입력"
+                android:inputType="textPersonName" />
 
             <EditText
                 android:id="@+id/editText4"
@@ -75,8 +75,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="textPersonName"
-                android:text="생년월일" />
+                android:hint="생년월일"
+                android:inputType="textPersonName" />
 
             <EditText
                 android:id="@+id/editText6"
@@ -84,8 +84,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="textPersonName"
-                android:text="성별입력" />
+                android:hint="성별입력"
+                android:inputType="textPersonName" />
 
             <Button
                 android:id="@+id/button"

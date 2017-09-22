@@ -9,14 +9,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            android:label="123123421123">
+
+        </activity>
+        <activity android:name=".KidsRegActivity" />
+        <activity android:name=".ListViewActivity"
+            android:label="♡ 허니쁘미 용돈 관리 ♡">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
-        <activity android:name=".KidsRegActivity"></activity>
     </application>
 
 </manifest>

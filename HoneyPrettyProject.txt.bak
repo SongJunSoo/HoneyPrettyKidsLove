@@ -26,4 +26,19 @@
 4) 카카오 오븐 : 프로토 타입 만드는 사이트
 5) https://github.com/nashorn74/ProtoType/
 6) https://github.com/SongJunSoo/HoneyPrettyKidsLove
+7) 모비즌 : 안드로이드 PC화면 미러링
 
+
+향상 for문 사용
+for(BankModel1 bank : bankmodel3.getBody())
+{
+
+}
+
+#####################################################################################
+2017.09.22 수업내용
+#####################################################################################
+
+1. 교재 184 page : margin, padding 차이점 나옴
+2. 이미지 사이즈 줄이는 툴 : https://www.gimp.org/downloads/
+3. 이미지는 100kbytes 전후
