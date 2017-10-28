@@ -1,0 +1,197 @@
+#######################################################################################
+# 원장 설계
+#######################################################################################
+ 
+1. 부모원장
+ 
+원장명 : hpkl_parent
+
+hpkl_id      : seq auto increment  							long 		10
+device_token : 회원가입이 없어서 unique한 로그인 아이디     varchar	100
+name		 : 홍길동(가족 닉네임)			 				varchar    30
+birth		 : 부모 생년월일 								varchar    8
+gender		 : 부모 성별 									varchar    1 (M,W)	
+picture_url  : 부모 사진 주소 								varchar    200
+ 
+-- sql
+drop table hpkl_parent;
+create table hpkl_parent(
+	hpkl_id 	 integer auto_increment,
+	device_token varchar(256) not null UNIQUE,
+	name         varchar(30) not null,
+	birth        varchar(8) not null,
+	gender       varchar(1) not null,
+	picture_url  varchar(200) not null,  
+	primary key (hpkl_id)
+); 
+
+2. 아이원장
+
+원장명 : hpkl_child
+
+hpkl_id : 부모원장과 링크 걸리는 아이디 		long 		10
+hpkl_child_id : 아이별 아이디 					varchar     8 -> CH000001
+name : 아이 이름								varchar    30	
+birth : 아이 생년월일							varchar    8
+gender : 아이 성별 								varchar    1 (M,W)
+hpkl_total_saving_love : 적립 총 love			long        15 	
+picture_url : 아이 사진 주소 					varchar    200
+	
+-- sql  
+drop table hpkl_child;
+create table hpkl_child(
+	hpkl_id 	  		   integer not null,
+	hpkl_child_id 		   integer auto_increment,
+	name          		   varchar(30) not null,
+	birth         		   varchar(8) not null,
+	gender         		   varchar(1) not null,
+	hpkl_total_saving_love integer,
+	picture_url  		   varchar(200) not null,
+	primary key (hpkl_id, hpkl_child_id )  
+);
+
+3. 칭찬관리원장
+
+원장명 : hpkl_praise
+
+hpkl_id : 부모원장과 링크 걸리는 아이디 		long 		10
+hpkl_child_id : 아이별 아이디 					varchar     8
+hpkl_date : 칭찬 일자 							varchar     8
+hpkl_time : 칭찬 시간 							varchar     6
+hpkl_saving_love : 적립 러브 ( 500, 1000 .. )	long        15						
+hpkl_praise_memo  : 칭찬 메모 					varchar    1000
+hpkl_praise_picture_url : 칭찬 사진 위치 		varchar    200
+hpkl_sticker_group : 스티커 그룹 구분           varchar 	1	
+hpkl_sticker_code_value	: 스티커 코드 값		varchar 	2
+
+-- sql
+drop table hpkl_praise;
+create table hpkl_praise(
+	hpkl_id 	  		   	  integer not null,
+	hpkl_child_id 		   	  varchar(8) not null,
+	hpkl_date          	   	  varchar(8) not null,
+	hpkl_time         	   	  varchar(6) not null,
+	hpkl_saving_love       	  integer,
+	hpkl_praise_memo	   	  varchar(1000) not null,
+	hpkl_praise_picture_url   varchar(200) not null,
+	hpkl_sticker_group  	  varchar(1) not null,
+	hpkl_sticker_code_value   integer  not null, 
+	primary key (hpkl_id, hpkl_child_id,hpkl_date,hpkl_time)  
+);
+
+
+4. 칭찬스티커종류 
+
+원장명 : hpkl_praise_sticker_kind
+
+
+hpkl_sticker_group         : 스티커 그룹 구분 (A, B, C, D, E , F, G) 	varchar 1
+hpkl_sticker_group_name    : 스티커 그룹 구분 명                        varchar 100  
+hpkl_sticker_code_value	   : 스티커 코드 값 							varchar 2
+hpkl_sticker_code_name	   : 스티커 코드 명								varchar 100		
+
+A : 01. 규칙을 잘지키는 우리 아이
+B : 02. 예의바른 우리 아이 
+C : 03. 건강하고 안전한 우리 아이 
+D : 04. 청결한 우리 아이 
+E : 05. 사회성 좋은 우리 아이 
+F : 06. 책임감 있는 우리 아이
+G : 07. 사용자정의
+
+-- sql 
+drop table hpkl_praise_sticker_kind;
+create table hpkl_praise_sticker_kind(
+	hpkl_sticker_code_value   integer auto_increment,
+	hpkl_sticker_code_name    varchar(100) not null,
+    hpkl_sticker_group 	  	  varchar(1)  not null,
+	hpkl_sticker_group_name   varchar(100) not null,
+	hpkl_sticker_icon_url     varchar(200) ,
+	primary key (hpkl_sticker_code_value)  
+);
+ 
+
+NSERT INTO `restful`.`hpkl_praise_sticker_kind` (`hpkl_sticker_code_name`, `hpkl_sticker_group`, `hpkl_sticker_group_name`) VALUES ('일찍자기', 'A', '규칙을 잘 지키는 우리 아이');
+
+A 규칙을 잘 지키는 우리 아이
+일찍자기
+일찍일어나기
+등하원잘하기
+질서지키기
+떠들지않기
+뛰어다니지않기
+떼쓰지않기
+울음그치기
+책읽기
+TV보는시간지키기
+남의물건가져오지않기
+게임하는시간지키기
+거짓말하지않기
+공부하기
+학원가기
+
+B 예의 바른 우리 아이
+
+어른께인사하기
+친구와인사하기
+감사표현하기
+사과하기
+바르게앉아서식사하기
+어른께존댓말하기
+두손으로드리고받기
+식사후그릇치우기
+고운말쓰기
+
+C 건강하고 안전한 우리 아이
+밥잘먹기
+야채잘먹기
+과일먹기
+약잘먹기
+우유잘마시기
+병원가기
+횡단보도안전하게걷기
+유산균잘먹기
+편식하지않기
+주사잘맞기
+이뽑기
+위험한장난하지않기
+
+D 청결한 우리 아이
+이닦기
+세수하기
+손씻기
+목욕하기
+배변하기
+코파지않기
+주워먹지않기
+손으로음식먹지않기
+손가락빨지않기
+손톱물어뜯지않기
+더러운(속)옷갈아입기
+
+E 사회성 좋은 우리 아이
+
+친구들과사이좋게지내기
+양보하기
+음식나눠먹기
+화해하기
+친구들과함께놀기
+남을아프게하지않기
+남의의견에동의하기
+형제들과사이좋게지내기
+단체생활참여하기
+
+F 책임감 있는 우리 아이
+
+동생돌보기
+반려동물먹이주기
+심부름하기
+옷정리하기
+신발정리하기
+놀잇감정리하기
+준비물챙기기
+옷입고벗기
+집안일돕기
+방정리하기
+이불정리하기
+
+ 

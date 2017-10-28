@@ -1,0 +1,73 @@
+{
+  "project_info": {
+    "project_number": "377690593607",
+    "firebase_url": "https://fir-test-4838b.firebaseio.com",
+    "project_id": "fir-test-4838b",
+    "storage_bucket": "fir-test-4838b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:377690593607:android:698fb0dbb1b7c874",
+        "android_client_info": {
+          "package_name": "com.example.a50137436.firebasetest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "377690593607-5ns3gegvq3hd1c08nkkv01gt84os7es0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyARr4PzxLCBhLuCPX8qzvw4POEiIMqua5Y"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:377690593607:android:037fc1ef09751f82",
+        "android_client_info": {
+          "package_name": "org.honeypretty.honeyprettykidslove"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "377690593607-5ns3gegvq3hd1c08nkkv01gt84os7es0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyARr4PzxLCBhLuCPX8qzvw4POEiIMqua5Y"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
