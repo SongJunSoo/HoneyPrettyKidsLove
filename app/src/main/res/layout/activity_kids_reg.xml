@@ -13,19 +13,16 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="40"
-        android:background="#e70eaa">
+        android:background="#f6f7f7">
 
-        <com.github.siyamed.shapeimageview.RoundedImageView
-            android:id="@+id/roundedImageView"
-            android:layout_width="100dp"
-            android:layout_height="0dp"
-            android:layout_centerInParent="true"
-            android:baselineAlignBottom="false"
-            android:src="@drawable/pgl143"
-            app:siBorderColor="@color/darkGray"
-            app:siBorderWidth="6dp"
-            app:siRadius="25dp"
-            app:siSquare="true" />
+        <ImageView
+            android:id="@+id/imageViewTest"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            />
 
 
 
@@ -35,42 +32,57 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="5"
-        android:background="#0ee765">
+        android:background="#f6f7f7">
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/comment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerInParent="true"
+            android:paddingTop="5dp"
             android:text="사진을 올려주세요" />
+
+        <com.github.siyamed.shapeimageview.RoundedImageView
+            android:id="@+id/roundedImageViewPic"
+            android:layout_width="30dp"
+            android:layout_height="0dp"
+            android:baselineAlignBottom="false"
+            android:src="@drawable/camera"
+            app:siBorderColor="@color/darkGray"
+            app:siBorderWidth="3dp"
+            app:siRadius="5dp"
+            app:siSquare="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
 
     </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="70"
+        android:layout_weight="55"
         android:background="#ffffff"
         android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="70"
+            android:layout_weight="10"
             android:orientation="vertical">
 
             <EditText
-                android:id="@+id/editText3"
+                android:id="@+id/name"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="2"
+                android:layout_weight="1"
                 android:ems="10"
                 android:hint="아이 이름 또는 애칭 입력"
                 android:inputType="textPersonName" />
 
             <EditText
-                android:id="@+id/editText4"
+                android:id="@+id/birth"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -78,21 +90,77 @@
                 android:hint="생년월일"
                 android:inputType="textPersonName" />
 
-            <EditText
-                android:id="@+id/editText6"
+            <!--<EditText-->
+                <!--android:id="@+id/gender"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_weight="1"-->
+                <!--android:ems="10"-->
+                <!--android:hint="성별입력"-->
+                <!--android:inputType="textPersonName" />-->
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:ems="10"
-                android:hint="성별입력"
-                android:inputType="textPersonName" />
+                android:layout_height="50dp"
+                android:orientation="horizontal">
+
+            <RadioGroup
+                android:id="@+id/radioGroup1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radio_man"
+                    android:layout_width="150dp"
+                    android:layout_height="50dp"
+                    android:checked="true"
+                    android:text="남자" />
+
+                <RadioButton
+                    android:id="@+id/radio_woman"
+                    android:layout_width="150dp"
+                    android:layout_height="50dp"
+                    android:text="여자" />
+            </RadioGroup>
+            </LinearLayout>
+
 
             <Button
-                android:id="@+id/button"
+                android:id="@+id/reg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="등록" />
+                android:text="완료" />
+
+            <!--<Button-->
+                <!--android:id="@+id/button"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignParentTop="true"-->
+                <!--android:layout_centerHorizontal="true"-->
+                <!--android:onClick="onButton1Clicked"-->
+                <!--android:layout_weight="1"-->
+                <!--android:text="사진찍기" />-->
+
+            <!--<Button-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:onClick="goImageUpload"-->
+                <!--android:layout_weight="1"-->
+                <!--android:text="IMAGE UPLOAD"/>-->
+
+            <!--<ScrollView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1" >-->
+
+                <!--<TextView-->
+                    <!--android:id="@+id/textView"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent" />-->
+
+            <!--</ScrollView>-->
 
 
         </LinearLayout>

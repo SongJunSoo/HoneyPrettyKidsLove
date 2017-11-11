@@ -3,25 +3,49 @@
     package="org.honeypretty.honeyprettykidslove">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/a_1"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/mainicon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"
-            android:label="123123421123">
-
-        </activity>
-        <activity android:name=".KidsRegActivity" />
-        <activity android:name=".ListViewActivity"
-            android:label="♡ 허니쁘미 용돈 관리 ♡">
+        <activity
+            android:name=".MainActivity"
+            android:label="123123421123" />
+        <activity
+            android:name=".KidsRegActivity"
+            android:label="아이 정보 등록" />
+        <activity
+            android:name=".ParentRegActivity"
+            android:label="부모 정보 등록" />
+        <activity
+            android:name=".ListViewActivity"
+            android:label="허니쁘미 아이사랑">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".RecyclerViewActivity" />
+        <activity android:name=".ChildViewListActivity"
+            android:label="아이 칭찬 추억들"/>
+
+        <activity
+            android:name=".PraiseStickerChoice"
+            android:label="스티커 선택하기">
+        </activity>
+
+        <activity android:name=".KidsPraiseRegActivity"
+            android:label="사진과 메모로 추억 남기기">
 
         </activity>
     </application>
