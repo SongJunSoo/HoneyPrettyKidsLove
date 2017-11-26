@@ -10,6 +10,8 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Bitmap.CompressFormat;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -39,6 +41,7 @@ import java.io.ByteArrayInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -48,6 +51,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Iterator;
+
+import static org.honeypretty.honeyprettykidslove.KidsRegActivity.rotateBitmap;
 
 public class ParentRegActivity extends AppCompatActivity {
 
@@ -127,8 +132,8 @@ public class ParentRegActivity extends AppCompatActivity {
 
 
                 new ImageUpload().execute(
-                        "http://172.16.2.11:52274/user/picture",   // 회사
-                        //"http://172.16.2.11:52274/user/picture", // 집
+                        BasicInfo.restFulServer+"/user/picture",   // 회사
+                        //BasicInfo.restFulServer+"/user/picture", // 집
                         mCurrentPhotoPath, "DESCRIPTION");
 
             }
@@ -182,8 +187,8 @@ public class ParentRegActivity extends AppCompatActivity {
             device_token = FirebaseInstanceId.getInstance().getToken();
             Log.i("device_token", device_token);
             new gaipCheck().execute(
-                    "http://172.16.2.11:52274/parent", device_token); // 회사
-            //"http://192.168.0.25:52274/parent", device_token);  // 집
+                    BasicInfo.restFulServer+"/parent", device_token); // 회사
+            //BasicInfo.restFulServer+"/parent", device_token);  // 집
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -207,16 +212,26 @@ public class ParentRegActivity extends AppCompatActivity {
                 if (resultCode == RESULT_OK)
                 {
                     mCurrentPhotoPath = getPathFromUri(data.getData());
+
                     BitmapFactory.Options options = new BitmapFactory.Options();
-                    Bitmap bitmap = BitmapFactory.decodeFile(mCurrentPhotoPath, options);
-                    imageView.setImageBitmap(bitmap);
+                    options.inSampleSize = 2;
+
+                    Bitmap src = BitmapFactory.decodeFile(mCurrentPhotoPath, options);
+                    Bitmap bitmap = Bitmap.createScaledBitmap( src, src.getWidth(), src.getHeight(), true );
+                    Bitmap bitmap2 = createThumbnail(bitmap, "test.jpg", "1", "1");
+
+                    imageView.setImageBitmap(bitmap2);
+                    File storageDir = Environment.getExternalStorageDirectory();
+                    mCurrentPhotoPath = storageDir.getAbsolutePath() + "/hpkl_test.jpg";
+
+
                     //roundedImageViewPic.setVisibility(View.GONE);
                     roundedImageViewPic.setVisibility(View.VISIBLE);
                     Log.i("mCurrentPhotoPath", mCurrentPhotoPath);
                     Uri mImageCaptureUri = data.getData();
 //                    new ImageUpload().execute(
-//                            "http://172.16.2.11:52274/user/picture",   // 회사
-//                            //"http://172.16.2.11:52274/user/picture", // 집
+//                            BasicInfo.restFulServer+"/user/picture",   // 회사
+//                            //BasicInfo.restFulServer+"/user/picture", // 집
 //                            mCurrentPhotoPath, "DESCRIPTION");
                 }
                 break;
@@ -224,19 +239,35 @@ public class ParentRegActivity extends AppCompatActivity {
                 Log.i("resultCode", resultCode+"");
                 if (resultCode == RESULT_OK)
                 {
+                    ExifInterface exif = null;
+                    try {
+                        exif = new ExifInterface(file.getAbsolutePath());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION,
+                            ExifInterface.ORIENTATION_UNDEFINED);
+
                     BitmapFactory.Options options = new BitmapFactory.Options();
-                    options.inSampleSize = 8;
+                    options.inSampleSize = 2;
+
                     if (file != null) {
                         //roundedImageViewPic.setVisibility(View.GONE);
                         roundedImageViewPic.setVisibility(View.VISIBLE);
-                        Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
-                        imageView.setImageBitmap(bitmap);
+                        Bitmap src = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
+                        Bitmap bitmap = Bitmap.createScaledBitmap( src, src.getWidth(), src.getHeight(), true );
 
-                        mCurrentPhotoPath = file.getAbsolutePath();
+                        bitmap = rotateBitmap(bitmap, orientation);
+                        Bitmap bitmap2 = createThumbnail(bitmap, "test.jpg", "1", "1");
+
+                        imageView.setImageBitmap(bitmap2);
+                        File storageDir = Environment.getExternalStorageDirectory();
+                        mCurrentPhotoPath = storageDir.getAbsolutePath() + "/hpkl_test.jpg";
+
                         Log.i("mCurrentPhotoPath", mCurrentPhotoPath);
 //                        new ImageUpload().execute(
-//                                "http://172.16.2.11:52274/user/picture",   // 회사
-//                                //"http://172.16.2.11:52274/user/picture", // 집
+//                                BasicInfo.restFulServer+"/user/picture",   // 회사
+//                                //BasicInfo.restFulServer+"/user/picture", // 집
 //                                mCurrentPhotoPath, "DESCRIPTION");
                     } else {
                         Toast.makeText(getApplicationContext(), "File is null.", Toast.LENGTH_LONG).show();
@@ -338,9 +369,9 @@ public class ParentRegActivity extends AppCompatActivity {
             try {
                 JSONObject json = new JSONObject(s);
                 if (json.getBoolean("result") == true) {
-                    Toast.makeText(ParentRegActivity.this,
-                            "부모 정보 저장 성공",
-                            Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(ParentRegActivity.this,
+//                            "부모 정보 저장 성공",
+//                            Toast.LENGTH_SHORT).show();
 
                     Intent intent = new Intent(ParentRegActivity.this,
                             ListViewActivity.class);
@@ -447,9 +478,9 @@ public class ParentRegActivity extends AppCompatActivity {
             try {
                 JSONObject json = new JSONObject(s);
                 if (json.getBoolean("result") == true) {// 가입 되어 있음
-                    Toast.makeText(ParentRegActivity.this,
-                            "이미지 서버 저장 성공",
-                            Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(ParentRegActivity.this,
+//                            "이미지 서버 저장 성공",
+//                            Toast.LENGTH_SHORT).show();
                     TextView name = (TextView)findViewById(R.id.name);
                     TextView birth = (TextView)findViewById(R.id.birth);
 
@@ -468,14 +499,15 @@ public class ParentRegActivity extends AppCompatActivity {
                     }
 
 
-                    image_url = "http://172.16.2.11:52274//upload_image/"+json.getString("url").toString();
+                    //image_url = BasicInfo.restFulServer+"//upload_image/"+json.getString("url").toString();
+                    image_url = json.getString("url").toString();
                     Log.i("name",name.getText().toString());
                     Log.i("birth",birth.getText().toString());
 
                     Log.i("url", image_url);
                     new goParentGaip().execute(
-                            "http://172.16.2.11:52274/parent",   // 회사
-                            //"http://172.16.2.11:52274/parent", // 집
+                            BasicInfo.restFulServer+"/parent",   // 회사
+                            //BasicInfo.restFulServer+"/parent", // 집
                             device_token, name.getText().toString(), birth.getText().toString(), gender, image_url);
 
                 } else {//가입 안되어 있음
@@ -546,13 +578,13 @@ public class ParentRegActivity extends AppCompatActivity {
             try {
                 JSONObject json = new JSONObject(s);
                 if (json.getBoolean("result") == true) {// 가입 되어 있음
-                    Toast.makeText(ParentRegActivity.this,
-                            "가입 되어 있음",
-                            Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(ParentRegActivity.this,
+//                            "가입 되어 있음",
+//                            Toast.LENGTH_SHORT).show();
                 } else {//가입 안되어 있음
-                    Toast.makeText(ParentRegActivity.this,
-                            "가입 안되어 있음",
-                            Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(ParentRegActivity.this,
+//                            "가입 안되어 있음",
+//                            Toast.LENGTH_SHORT).show();
                 }
             } catch (Exception e) { e.printStackTrace(); }
         }
@@ -670,5 +702,86 @@ public class ParentRegActivity extends AppCompatActivity {
         Intent intent = new Intent(Intent.ACTION_PICK,
                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(intent, REQUEST_IMAGE_ALBUM);
+    }
+
+    // Bitmap to File
+    //bitmap에는 비트맵, strFilePath에 는 파일을 저장할 경로, strFilePath 에는 파일 이름을 할당해주면 됩니다.
+    public Bitmap createThumbnail(Bitmap bitmap, String filename, String height, String width) {
+
+        File storageDir = Environment.getExternalStorageDirectory();
+        File file = new File(storageDir.getAbsolutePath());
+        Log.i("bitmap.storageDir " , storageDir.getAbsolutePath());
+        Log.i("bitmap.filename " , filename);
+
+        // If no folders
+        if (!file.exists()) {
+            file.mkdirs();
+            Log.i("bitmap.filename 000" , "000");
+        }else{
+            Log.i("bitmap.filename 001" , "001");
+        }
+
+        Log.i("bitmap.filename 000" , storageDir.getAbsolutePath() + "/hpkl_"+filename);
+        File fileCacheItem = new File(storageDir.getAbsolutePath() + "/hpkl_"+filename);
+        OutputStream out = null;
+
+        Log.i("bitmap.filename 111" , "111");
+        try {
+
+            int height_get = Integer.parseInt(height);
+            int width_get = Integer.parseInt(width);
+
+            int height_imgget=bitmap.getHeight();
+            int width_imgget=bitmap.getWidth();
+
+            int height_final = 0;
+            int width_final = 0;
+
+            if(height.equals("1")) {
+                height_final = height_imgget;
+            }else {
+                height_final = height_get;
+            }
+
+            if(width.equals("1")) {
+                width_final = width_imgget;
+            }else {
+                width_final = width_get;
+            }
+
+
+
+            Log.i("bitmap height_get" , Integer.toString(height_get));
+            Log.i("bitmap height_imgget" , Integer.toString(height_imgget));
+            fileCacheItem.createNewFile();
+            Log.i("bitmap width_get" , Integer.toString(width_get));
+            Log.i("bitmap width_imgget" , Integer.toString(width_imgget));
+            out = new FileOutputStream(fileCacheItem);
+            Log.i("bitmap height_final" , Integer.toString(height_final));
+            Log.i("bitmap width_final" , Integer.toString(width_final));
+            Log.i("bitmap.filename 666" , "666");
+            //160 부분을 자신이 원하는 크기로 변경할 수 있습니다.
+            bitmap = Bitmap.createScaledBitmap(bitmap, width_final, height_final, true);
+            //bitmap = Bitmap.createScaledBitmap(bitmap, 160, height/(width/160), true);
+            //bitmap = Bitmap.createScaledBitmap(bitmap, 10, 20, true);
+            bitmap.compress(CompressFormat.JPEG, 50, out);
+
+
+
+            Log.i("bitmap.compress " , storageDir.getAbsolutePath() + "/hpkl_"+filename);
+
+        } catch (Exception e) {
+            Log.i("bitmap.filename 222" , "222");
+            e.printStackTrace();
+        } finally {
+            try {
+                Log.i("bitmap.filename 333" , "333");
+                out.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return bitmap;
     }
 }

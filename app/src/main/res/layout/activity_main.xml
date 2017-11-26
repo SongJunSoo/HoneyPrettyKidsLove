@@ -31,7 +31,7 @@
     <com.github.siyamed.shapeimageview.RoundedImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/pgl143"
+        android:src="@drawable/sticker_1"
         app:siRadius="6dp"
         app:siBorderWidth="6dp"
         app:siSquare="true"/>

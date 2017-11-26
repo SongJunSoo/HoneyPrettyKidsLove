@@ -10,6 +10,8 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Bitmap.CompressFormat;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -38,6 +40,7 @@ import java.io.ByteArrayInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -49,6 +52,8 @@ import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
+
+import static org.honeypretty.honeyprettykidslove.KidsRegActivity.rotateBitmap;
 
 
 public class KidsPraiseRegActivity extends AppCompatActivity {
@@ -67,6 +72,8 @@ public class KidsPraiseRegActivity extends AppCompatActivity {
     TextView sticker_name;
     GestureDetector detector;
     Button reg;
+    TextView mEtPrice;
+
 
     public static final int REQUEST_IMAGE_CAPTURE = 1001;
     private static final int REQUEST_IMAGE_CAMERA = 11;
@@ -95,7 +102,7 @@ public class KidsPraiseRegActivity extends AppCompatActivity {
     /**
      * 스피너를 위한 아이템 정의
      */
-    String[] items = { "500", "1000", "1500", "2000", "2500", "3000"};
+    String[] items = {"적립할 러브를 선택하세요", "500 러브 적립", "1,000 러브 적립", "1,500 러브 적립", "2,000 러브 적립", "2,500 러브 적립", "3,000 러브 적립"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,7 +115,7 @@ public class KidsPraiseRegActivity extends AppCompatActivity {
         str_hpkl_child_id = intent.getStringExtra("child_hpkl_id");
         str_praise_sticker_name = intent.getStringExtra("praise_sticker_name");
 
-        Toast.makeText(getApplicationContext(), "str_hpkl_id : " + str_hpkl_id + ", str_hpkl_child_id =" + str_hpkl_child_id + ", str_praise_sticker_name =" + str_praise_sticker_name, Toast.LENGTH_LONG).show();
+//        Toast.makeText(getApplicationContext(), "str_hpkl_id : " + str_hpkl_id + ", str_hpkl_child_id =" + str_hpkl_child_id + ", str_praise_sticker_name =" + str_praise_sticker_name, Toast.LENGTH_LONG).show();
         //Toast.makeText(getApplicationContext(), "getDate() : " + getDate() + ", getTime() =" + getTime(), Toast.LENGTH_LONG).show();
 
 
@@ -119,10 +126,10 @@ public class KidsPraiseRegActivity extends AppCompatActivity {
         sticker_name = (TextView)findViewById(R.id.sticker_name);
         spinner = (Spinner)findViewById(R.id.spinner);
 
-        sticker_name.setText("칭찬스티커명 : " + str_praise_sticker_name);
+        sticker_name.setText("칭찬스티커 : " + str_praise_sticker_name);
         // 어댑터 객체 생성
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-                this, android.R.layout.simple_spinner_item, items);
+                this, R.layout.custom_simple_dropdown_item_1line, items);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         // 어댑터 설정
@@ -166,10 +173,10 @@ public class KidsPraiseRegActivity extends AppCompatActivity {
                 }
 
 
-                if (TextUtils.isEmpty(saving_love)) {
+                if (saving_love.equals("적립할 러브를 선택하세요")) {
 
                     Toast.makeText(KidsPraiseRegActivity.this,
-                            "용돈을 선택 하세요.",
+                            "적립할 러브를 선택하세요.",
                             Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -185,8 +192,8 @@ public class KidsPraiseRegActivity extends AppCompatActivity {
 
 
                 new ImageUpload().execute(
-                        "http://172.16.2.11:52274/user/picture",   // 회사
-                        //"http://172.16.2.11:52274/user/picture", // 집
+                        BasicInfo.restFulServer+"/user/picture",   // 회사
+                        //BasicInfo.restFulServer+"/user/picture", // 집
                         mCurrentPhotoPath, "DESCRIPTION");
 
             }
@@ -242,8 +249,8 @@ public class KidsPraiseRegActivity extends AppCompatActivity {
 //            device_token = FirebaseInstanceId.getInstance().getToken();
 //            Log.i("device_token", device_token);
 //            new gaipCheck().execute(
-//                    "http://172.16.2.11:52274/parent", device_token); // 회사
-//            //"http://192.168.0.25:52274/parent", device_token);  // 집
+//                    BasicInfo.restFulServer+"/parent", device_token); // 회사
+//            //BasicInfo.restFulServer+"/parent", device_token);  // 집
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
@@ -279,16 +286,24 @@ public class KidsPraiseRegActivity extends AppCompatActivity {
                 if (resultCode == RESULT_OK)
                 {
                     mCurrentPhotoPath = getPathFromUri(data.getData());
+
                     BitmapFactory.Options options = new BitmapFactory.Options();
-                    Bitmap bitmap = BitmapFactory.decodeFile(mCurrentPhotoPath, options);
-                    imageView.setImageBitmap(bitmap);
-                    //roundedImageViewPic.setVisibility(View.GONE);
+                    options.inSampleSize = 2;
+
+                    Bitmap src = BitmapFactory.decodeFile(mCurrentPhotoPath, options);
+                    Bitmap bitmap = Bitmap.createScaledBitmap( src, src.getWidth(), src.getHeight(), true );
+                    Bitmap bitmap2 = createThumbnail(bitmap, "test.jpg", "1", "1");
+
+                    imageView.setImageBitmap(bitmap2);
+                    File storageDir = Environment.getExternalStorageDirectory();
+                    mCurrentPhotoPath = storageDir.getAbsolutePath() + "/hpkl_test.jpg";
+
                     roundedImageViewPic.setVisibility(View.VISIBLE);
                     Log.i("mCurrentPhotoPath", mCurrentPhotoPath);
                     Uri mImageCaptureUri = data.getData();
 //                    new ImageUpload().execute(
-//                            "http://172.16.2.11:52274/user/picture",   // 회사
-//                            //"http://172.16.2.11:52274/user/picture", // 집
+//                            BasicInfo.restFulServer+"/user/picture",   // 회사
+//                            //BasicInfo.restFulServer+"/user/picture", // 집
 //                            mCurrentPhotoPath, "DESCRIPTION");
                 }
                 break;
@@ -296,19 +311,36 @@ public class KidsPraiseRegActivity extends AppCompatActivity {
                 Log.i("resultCode", resultCode+"");
                 if (resultCode == RESULT_OK)
                 {
-                    BitmapFactory.Options options = new BitmapFactory.Options();
-                    options.inSampleSize = 8;
+                    ExifInterface exif = null;
+                    try {
+                        exif = new ExifInterface(file.getAbsolutePath());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION,
+                            ExifInterface.ORIENTATION_UNDEFINED);
+
                     if (file != null) {
                         //roundedImageViewPic.setVisibility(View.GONE);
                         roundedImageViewPic.setVisibility(View.VISIBLE);
-                        Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
-                        imageView.setImageBitmap(bitmap);
 
-                        mCurrentPhotoPath = file.getAbsolutePath();
+                        BitmapFactory.Options options = new BitmapFactory.Options();
+                        options.inSampleSize = 2;
+
+                        Bitmap src = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
+                        Bitmap bitmap = Bitmap.createScaledBitmap( src, src.getWidth(), src.getHeight(), true );
+
+                        bitmap = rotateBitmap(bitmap, orientation);
+                        Bitmap bitmap2 = createThumbnail(bitmap, "test.jpg", "1", "1");
+
+                        imageView.setImageBitmap(bitmap2);
+                        File storageDir = Environment.getExternalStorageDirectory();
+                        mCurrentPhotoPath = storageDir.getAbsolutePath() + "/hpkl_test.jpg";
+
                         Log.i("mCurrentPhotoPath", mCurrentPhotoPath);
 //                        new ImageUpload().execute(
-//                                "http://172.16.2.11:52274/user/picture",   // 회사
-//                                //"http://172.16.2.11:52274/user/picture", // 집
+//                                BasicInfo.restFulServer+"/user/picture",   // 회사
+//                                //BasicInfo.restFulServer+"/user/picture", // 집
 //                                mCurrentPhotoPath, "DESCRIPTION");
                     } else {
                         Toast.makeText(getApplicationContext(), "File is null.", Toast.LENGTH_LONG).show();
@@ -402,7 +434,7 @@ public class KidsPraiseRegActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            dialog.setMessage("로그인 중...");
+            dialog.setMessage("처리중 입니다.");
             dialog.show();
         }
         @Override
@@ -417,9 +449,9 @@ public class KidsPraiseRegActivity extends AppCompatActivity {
                     str_hpkl_id = json.getString("hpkl_id");
                     str_hpkl_child_id = json.getString("hpkl_child_id");
 
-                    Toast.makeText(KidsPraiseRegActivity.this,
-                            "칭찬 정보 저장 성공",
-                            Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(KidsPraiseRegActivity.this,
+//                            "칭찬 정보 저장 성공",
+//                            Toast.LENGTH_SHORT).show();
 
                     Intent intent = new Intent(KidsPraiseRegActivity.this,
                             ChildViewListActivity.class);
@@ -433,9 +465,9 @@ public class KidsPraiseRegActivity extends AppCompatActivity {
 
 
                 } else {
-                    Toast.makeText(KidsPraiseRegActivity.this,
-                            "칭찬 정보 저장 실패",
-                            Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(KidsPraiseRegActivity.this,
+//                            "칭찬 정보 저장 실패",
+//                            Toast.LENGTH_SHORT).show();
                 }
             } catch (Exception e) { e.printStackTrace(); }
         }
@@ -521,7 +553,7 @@ public class KidsPraiseRegActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            dialog.setMessage("이미지 업로드 중...");
+            dialog.setMessage("처리중 입니다.");
             dialog.show();
         }
 
@@ -533,23 +565,38 @@ public class KidsPraiseRegActivity extends AppCompatActivity {
             try {
                 JSONObject json = new JSONObject(s);
                 if (json.getBoolean("result") == true) {// 가입 되어 있음
-                    Toast.makeText(KidsPraiseRegActivity.this,
-                            "이미지 서버 저장 성공",
-                            Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(KidsPraiseRegActivity.this,
+//                            "이미지 서버 저장 성공",
+//                            Toast.LENGTH_SHORT).show();
                     TextView memo = (TextView)findViewById(R.id.memo);
                     Spinner spinner = (Spinner)findViewById(R.id.spinner);
                     String saving_love = spinner.getSelectedItem().toString();
-                    image_url = "http://172.16.2.11:52274/upload_image/"+json.getString("url").toString();
+                    //image_url = BasicInfo.restFulServer+"/upload_image/"+json.getString("url").toString();
+                    image_url = json.getString("url").toString();
 
-                    Log.i("KKK name",memo.getText().toString());
-                    Log.i("KKK url", image_url);
-                    Log.i("KKK str_hpkl_id", str_hpkl_id);
-                    Log.i("KKK str_hpkl_child_id", str_hpkl_child_id);
-                    Log.i("str_praise_sticker_name", str_praise_sticker_name);
+                    if(saving_love.equals("500 러브 적립")) {
+                        saving_love = "500";
+                    }else if(saving_love.equals("1,000 러브 적립")) {
+                        saving_love = "1000";
+                    }else if(saving_love.equals("1,500 러브 적립")) {
+                        saving_love = "1500";
+                    }else if(saving_love.equals("2,000 러브 적립")) {
+                        saving_love = "2000";
+                    }else if(saving_love.equals("2,500 러브 적립")) {
+                        saving_love = "2500";
+                    }else if(saving_love.equals("3,000 러브 적립")) {
+                        saving_love = "3000";
+                    }
+
+//                    Log.i("KKK name",memo.getText().toString());
+//                    Log.i("KKK url", image_url);
+//                    Log.i("KKK str_hpkl_id", str_hpkl_id);
+//                    Log.i("KKK str_hpkl_child_id", str_hpkl_child_id);
+//                    Log.i("str_praise_sticker_name", str_praise_sticker_name);
 
                     new goChildPraiseReg().execute(
-                            "http://172.16.2.11:52274/child/praise",   // 회사
-                            //"http://172.16.2.11:52274/child", // 집
+                            BasicInfo.restFulServer+"/child/praise",   // 회사
+                            //BasicInfo.restFulServer+"/child", // 집
                             str_hpkl_id, str_hpkl_child_id, getDate(), getTime(), saving_love, memo.getText().toString(), image_url, str_praise_sticker_name );
 
                 } else {//가입 안되어 있음
@@ -609,7 +656,7 @@ public class KidsPraiseRegActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            dialog.setMessage("가입여부 체크 중...");
+            dialog.setMessage("처리중 입니다.");
             dialog.show();
         }
         @Override
@@ -751,5 +798,86 @@ public class KidsPraiseRegActivity extends AppCompatActivity {
         Intent intent = new Intent(Intent.ACTION_PICK,
                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(intent, REQUEST_IMAGE_ALBUM);
+    }
+
+    // Bitmap to File
+    //bitmap에는 비트맵, strFilePath에 는 파일을 저장할 경로, strFilePath 에는 파일 이름을 할당해주면 됩니다.
+    public Bitmap createThumbnail(Bitmap bitmap, String filename, String height, String width) {
+
+        File storageDir = Environment.getExternalStorageDirectory();
+        File file = new File(storageDir.getAbsolutePath());
+        Log.i("bitmap.storageDir " , storageDir.getAbsolutePath());
+        Log.i("bitmap.filename " , filename);
+
+        // If no folders
+        if (!file.exists()) {
+            file.mkdirs();
+            Log.i("bitmap.filename 000" , "000");
+        }else{
+            Log.i("bitmap.filename 001" , "001");
+        }
+
+        Log.i("bitmap.filename 000" , storageDir.getAbsolutePath() + "/hpkl_"+filename);
+        File fileCacheItem = new File(storageDir.getAbsolutePath() + "/hpkl_"+filename);
+        OutputStream out = null;
+
+        Log.i("bitmap.filename 111" , "111");
+        try {
+
+            int height_get = Integer.parseInt(height);
+            int width_get = Integer.parseInt(width);
+
+            int height_imgget=bitmap.getHeight();
+            int width_imgget=bitmap.getWidth();
+
+            int height_final = 0;
+            int width_final = 0;
+
+            if(height.equals("1")) {
+                height_final = height_imgget;
+            }else {
+                height_final = height_get;
+            }
+
+            if(width.equals("1")) {
+                width_final = width_imgget;
+            }else {
+                width_final = width_get;
+            }
+
+
+
+            Log.i("bitmap height_get" , Integer.toString(height_get));
+            Log.i("bitmap height_imgget" , Integer.toString(height_imgget));
+            fileCacheItem.createNewFile();
+            Log.i("bitmap width_get" , Integer.toString(width_get));
+            Log.i("bitmap width_imgget" , Integer.toString(width_imgget));
+            out = new FileOutputStream(fileCacheItem);
+            Log.i("bitmap height_final" , Integer.toString(height_final));
+            Log.i("bitmap width_final" , Integer.toString(width_final));
+            Log.i("bitmap.filename 666" , "666");
+            //160 부분을 자신이 원하는 크기로 변경할 수 있습니다.
+            bitmap = Bitmap.createScaledBitmap(bitmap, width_final, height_final, true);
+            //bitmap = Bitmap.createScaledBitmap(bitmap, 160, height/(width/160), true);
+            //bitmap = Bitmap.createScaledBitmap(bitmap, 10, 20, true);
+            bitmap.compress(CompressFormat.JPEG, 50, out);
+
+
+
+            Log.i("bitmap.compress " , storageDir.getAbsolutePath() + "/hpkl_"+filename);
+
+        } catch (Exception e) {
+            Log.i("bitmap.filename 222" , "222");
+            e.printStackTrace();
+        } finally {
+            try {
+                Log.i("bitmap.filename 333" , "333");
+                out.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return bitmap;
     }
 }

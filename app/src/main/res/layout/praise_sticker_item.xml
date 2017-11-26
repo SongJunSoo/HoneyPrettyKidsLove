@@ -16,8 +16,8 @@
 
         <com.github.siyamed.shapeimageview.RoundedImageView
             android:id="@+id/imageView"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
@@ -25,20 +25,21 @@
             android:paddingBottom="10dp"
             android:baselineAlignBottom="false"
             android:src="@drawable/sticker_1"
-            app:siBorderColor="@color/darkGray"
-            app:siBorderWidth="1dp"
-            app:siRadius="70dp"
+            app:siBorderColor="#fdfdfb"
+            app:siBorderWidth="0dp"
+            app:siRadius="50dp"
             app:siSquare="true" />
 
 
         <TextView
             android:id="@+id/textView"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="New Text"
             android:textColor="#ff5805"
-            android:textSize="22dp"
-            android:textStyle="bold" />
+            android:textSize="15dp"
+            android:textStyle="bold"
+            android:gravity="center"/>
 
 
     </LinearLayout>

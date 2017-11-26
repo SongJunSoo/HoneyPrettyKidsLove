@@ -15,9 +15,11 @@
             android:layout_height="match_parent"
             android:textStyle="bold"
             android:textColor="#0e0e0e"
+            android:layout_marginLeft="10dp"
             android:textSize="20dp"
-            android:gravity="left"
-            android:text="01. 규칙을 잘 지키는 우리 아이"/>
+            android:gravity="center|top"
+            android:layout_gravity="center"
+            android:text="아이에게 줄 칭찬스티커를 선택해 주세요."/>
 
     </LinearLayout>
 
@@ -29,7 +31,7 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/layout1"
         android:background="#ffeeeeee"
-        android:numColumns="3"
+        android:numColumns="2"
         android:horizontalSpacing="8dp"
         android:verticalSpacing="8dp"
         android:layout_margin="8dp"/>

@@ -17,14 +17,15 @@
 
         <com.github.siyamed.shapeimageview.RoundedImageView
             android:id="@+id/roundedImageViewPic_1"
-            android:layout_width="50dp"
+            android:layout_width="40dp"
             android:layout_height="0dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:layout_marginBottom="0dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="30dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="45dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="5dp"
             android:baselineAlignBottom="false"
             android:src="@drawable/titleimage_2"
             app:siBorderColor="@color/darkGray"
@@ -34,12 +35,14 @@
 
         <com.github.siyamed.shapeimageview.RoundedImageView
             android:id="@+id/roundedImageViewPic_2"
-            android:layout_width="50dp"
+            android:layout_width="40dp"
             android:layout_height="0dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:layout_marginRight="30dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="5dp"
             android:baselineAlignBottom="false"
             android:src="@drawable/titleimage_4"
             app:siBorderColor="@color/darkGray"
@@ -49,14 +52,33 @@
 
         <com.github.siyamed.shapeimageview.RoundedImageView
             android:id="@+id/roundedImageViewPic_3"
-            android:layout_width="50dp"
+            android:layout_width="40dp"
             android:layout_height="0dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:layout_marginRight="30dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="5dp"
             android:baselineAlignBottom="false"
             android:src="@drawable/titleimage_3"
+            app:siBorderColor="@color/darkGray"
+            app:siBorderWidth="1dp"
+            app:siRadius="5dp"
+            app:siSquare="true" />
+
+        <com.github.siyamed.shapeimageview.RoundedImageView
+            android:id="@+id/roundedImageViewPic_4"
+            android:layout_width="40dp"
+            android:layout_height="0dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="5dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="5dp"
+            android:baselineAlignBottom="false"
+            android:src="@drawable/titleimage_5"
             app:siBorderColor="@color/darkGray"
             app:siBorderWidth="1dp"
             app:siRadius="5dp"
@@ -108,7 +130,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="#f6f7f7">
+        android:background="#f7f3d5">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -116,15 +138,16 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/money"
+                android:id="@+id/child_money"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:textStyle="bold"
-                android:textColor="#0e0e0e"
-                android:paddingTop="15dp"
-                android:paddingRight="3dp"
                 android:gravity="top|left|center_vertical"
-                android:text="0"/>
+                android:layout_marginLeft="3dp"
+                android:paddingRight="3dp"
+                android:paddingTop="15dp"
+                android:text="0"
+                android:textColor="#0e0e0e"
+                android:textStyle="bold" />
 
             <com.github.siyamed.shapeimageview.RoundedImageView
                 android:id="@+id/roundedImageView_love"
@@ -165,7 +188,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentTop="true"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginRight="0dp"
                     android:paddingLeft="20dp"
                     android:baselineAlignBottom="false"
                     android:layout_gravity="center"
@@ -173,12 +196,13 @@
                     app:siBorderColor="@color/darkGray"
                     app:siBorderWidth="1dp"
                     app:siRadius="25dp"
-                    app:siSquare="true" />
+                    app:siSquare="true"
+                   />
 
             </LinearLayout>
 
         <LinearLayout
-            android:layout_width="150dp"
+            android:layout_width="130dp"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
@@ -190,7 +214,7 @@
                 android:textSize="15dp"
                 android:textStyle="bold"
                 android:gravity="center"
-                android:text="000"/>
+                android:text=""/>
 
             <TextView
                 android:id="@+id/birth"
@@ -199,11 +223,11 @@
                 android:textSize="15dp"
                 android:textStyle="bold"
                 android:gravity="center"
-                android:text="0000년 00월 00일"/>
+                android:text=""/>
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="120dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
@@ -214,7 +238,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
-                android:layout_marginRight="10dp"
+                android:layout_marginRight="3dp"
                 android:baselineAlignBottom="false"
                 android:layout_gravity="center"
                 android:src="@drawable/right_key"
@@ -231,6 +255,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
+                android:layout_marginLeft="10dp"
                 android:layout_marginRight="0dp"
                 android:baselineAlignBottom="false"
                 android:layout_gravity="center"

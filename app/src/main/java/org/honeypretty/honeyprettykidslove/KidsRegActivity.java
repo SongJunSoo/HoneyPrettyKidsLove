@@ -9,7 +9,10 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -31,6 +34,7 @@ import android.widget.Toast;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -39,6 +43,7 @@ import java.io.ByteArrayInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -63,6 +68,8 @@ public class KidsRegActivity extends AppCompatActivity {
     int selectedValueId;
     RadioButton oneWay;
 
+    private static String str_hpkl_id = "";
+    private static String str_hpkl_child_id = "";
 
     public static final int REQUEST_IMAGE_CAPTURE = 1001;
     private static final int REQUEST_IMAGE_CAMERA = 11;
@@ -131,8 +138,8 @@ public class KidsRegActivity extends AppCompatActivity {
 
 
         new ImageUpload().execute(
-            "http://172.16.2.11:52274/user/picture",   // 회사
-            //"http://172.16.2.11:52274/user/picture", // 집
+            BasicInfo.restFulServer+"/user/picture",   // 회사
+            //BasicInfo.restFulServer+"/user/picture", // 집
             mCurrentPhotoPath, "DESCRIPTION");
 
             }
@@ -159,28 +166,6 @@ public class KidsRegActivity extends AppCompatActivity {
             }
         });
 
-        // 잠만보 이미지 터치시에 터치 이벤트 감지
-//        roundedImageViewPic.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View view, MotionEvent motionEvent) {
-//                int action = motionEvent.getAction();
-//
-//                float curX = motionEvent.getX();
-//                float curY = motionEvent.getY();
-//
-//                if (action == MotionEvent.ACTION_DOWN) {
-//                    //onButton1Click();
-//                    //println("손가락 눌림 : " + curX + ", " + curY);
-//                } else if (action == MotionEvent.ACTION_MOVE) {
-//                    //println("손가락 움직임 : " + curX + ", " + curY);
-//                } else if (action == MotionEvent.ACTION_UP) {
-//                    //println("손가락 뗌 : " + curX + ", " + curY);
-//                }
-//
-//                return true;
-//            }
-//        });
-
         //교재 p707~p713 Firebase 설정 적용
         //Registration ID
         //아이정보 등록을 위해 토큰 값으로 부모 정보를 읽어 온다.
@@ -188,8 +173,8 @@ public class KidsRegActivity extends AppCompatActivity {
             device_token = FirebaseInstanceId.getInstance().getToken();
             Log.i("device_token", device_token);
             new gaipCheck().execute(
-                    "http://172.16.2.11:52274/parent", device_token); // 회사
-                    //"http://192.168.0.25:52274/parent", device_token);  // 집
+                    BasicInfo.restFulServer+"/parent", device_token); // 회사
+                    //BasicInfo.restFulServer+"/parent", device_token);  // 집
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -213,16 +198,28 @@ public class KidsRegActivity extends AppCompatActivity {
                 if (resultCode == RESULT_OK)
                 {
                     mCurrentPhotoPath = getPathFromUri(data.getData());
+
                     BitmapFactory.Options options = new BitmapFactory.Options();
-                    Bitmap bitmap = BitmapFactory.decodeFile(mCurrentPhotoPath, options);
-                    imageView.setImageBitmap(bitmap);
+                    options.inSampleSize = 2;
+
+                    Bitmap src = BitmapFactory.decodeFile(mCurrentPhotoPath, options);
+                    Bitmap bitmap = Bitmap.createScaledBitmap( src, src.getWidth(), src.getHeight(), true );
+                    Bitmap bitmap2 = createThumbnail(bitmap, "test.jpg", "1", "1");
+
+                    imageView.setImageBitmap(bitmap2);
+                    File storageDir = Environment.getExternalStorageDirectory();
+                    mCurrentPhotoPath = storageDir.getAbsolutePath() + "/hpkl_test.jpg";
+
                     //roundedImageViewPic.setVisibility(View.GONE);
                     roundedImageViewPic.setVisibility(View.VISIBLE);
+
+
                     Log.i("mCurrentPhotoPath", mCurrentPhotoPath);
+
                     Uri mImageCaptureUri = data.getData();
 //                    new ImageUpload().execute(
-//                            "http://172.16.2.11:52274/user/picture",   // 회사
-//                            //"http://172.16.2.11:52274/user/picture", // 집
+//                            BasicInfo.restFulServer+"/user/picture",   // 회사
+//                            //BasicInfo.restFulServer+"/user/picture", // 집
 //                            mCurrentPhotoPath, "DESCRIPTION");
                 }
                 break;
@@ -230,26 +227,86 @@ public class KidsRegActivity extends AppCompatActivity {
                 Log.i("resultCode", resultCode+"");
                 if (resultCode == RESULT_OK)
                 {
+                    ExifInterface exif = null;
+                    try {
+                        exif = new ExifInterface(file.getAbsolutePath());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION,
+                            ExifInterface.ORIENTATION_UNDEFINED);
+
                     BitmapFactory.Options options = new BitmapFactory.Options();
-                    options.inSampleSize = 8;
+                    options.inSampleSize = 2;
+
                     if (file != null) {
                         //roundedImageViewPic.setVisibility(View.GONE);
                         roundedImageViewPic.setVisibility(View.VISIBLE);
-                        Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
-                        imageView.setImageBitmap(bitmap);
+                        Bitmap src = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
+                        Bitmap bitmap = Bitmap.createScaledBitmap( src, src.getWidth(), src.getHeight(), true );
 
-                        mCurrentPhotoPath = file.getAbsolutePath();
+                        bitmap = rotateBitmap(bitmap, orientation);
+                        Bitmap bitmap2 = createThumbnail(bitmap, "test.jpg", "1", "1");
+
+                        imageView.setImageBitmap(bitmap2);
+                        File storageDir = Environment.getExternalStorageDirectory();
+                        mCurrentPhotoPath = storageDir.getAbsolutePath() + "/hpkl_test.jpg";
+
                         Log.i("mCurrentPhotoPath", mCurrentPhotoPath);
 //                        new ImageUpload().execute(
-//                                "http://172.16.2.11:52274/user/picture",   // 회사
-//                                //"http://172.16.2.11:52274/user/picture", // 집
+//                                BasicInfo.restFulServer+"/user/picture",   // 회사
+//                                //BasicInfo.restFulServer+"/user/picture", // 집
 //                                mCurrentPhotoPath, "DESCRIPTION");
                     } else {
                         Toast.makeText(getApplicationContext(), "File is null.", Toast.LENGTH_LONG).show();
                     }
                 }
                 break;
-            }
+        }
+    }
+
+    public static Bitmap rotateBitmap(Bitmap bitmap, int orientation) {
+
+        Matrix matrix = new Matrix();
+        switch (orientation) {
+            case ExifInterface.ORIENTATION_NORMAL:
+                return bitmap;
+            case ExifInterface.ORIENTATION_FLIP_HORIZONTAL:
+                matrix.setScale(-1, 1);
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_180:
+                matrix.setRotate(180);
+                break;
+            case ExifInterface.ORIENTATION_FLIP_VERTICAL:
+                matrix.setRotate(180);
+                matrix.postScale(-1, 1);
+                break;
+            case ExifInterface.ORIENTATION_TRANSPOSE:
+                matrix.setRotate(90);
+                matrix.postScale(-1, 1);
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_90:
+                matrix.setRotate(90);
+                break;
+            case ExifInterface.ORIENTATION_TRANSVERSE:
+                matrix.setRotate(-90);
+                matrix.postScale(-1, 1);
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_270:
+                matrix.setRotate(-90);
+                break;
+            default:
+                return bitmap;
+        }
+        try {
+            Bitmap bmRotated = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+            bitmap.recycle();
+            return bmRotated;
+        }
+        catch (OutOfMemoryError e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public String getPathFromUri(Uri uri) {
@@ -267,14 +324,6 @@ public class KidsRegActivity extends AppCompatActivity {
             startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
         }
     }
-
-//    public void onButton1Clicked(View v) {
-//        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
-//        if (intent.resolveActivity(getPackageManager()) != null) {
-//            startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
-//        }
-//    }
 
     private File createFile() throws IOException {
         String imageFileName = "test.jpg";
@@ -333,7 +382,7 @@ public class KidsRegActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            dialog.setMessage("로그인 중...");
+            dialog.setMessage("처리중 입니다.");
             dialog.show();
         }
         @Override
@@ -344,12 +393,22 @@ public class KidsRegActivity extends AppCompatActivity {
             try {
                 JSONObject json = new JSONObject(s);
                 if (json.getBoolean("result") == true) {
-                    Toast.makeText(KidsRegActivity.this,
-                            "아이 정보 저장 성공",
-                            Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(KidsRegActivity.this,
+//                            "아이 정보 저장 성공",
+//                            Toast.LENGTH_SHORT).show();
+
+                    JSONArray item = json.getJSONArray("db_result");
+                    for (int i = 0; i < item.length(); i++) {
+                        JSONObject obj = item.getJSONObject(i);
+                        str_hpkl_id = obj.getString("hpkl_id");
+                        str_hpkl_child_id = obj.getString("hpkl_child_id");
+                    }
 
                     Intent intent = new Intent(KidsRegActivity.this,
-                            ListViewActivity.class);
+                            ChildViewListActivity.class);
+
+                    intent.putExtra("parent_hpkl_id", str_hpkl_id);
+                    intent.putExtra("child_hpkl_id", str_hpkl_child_id);
 
                     startActivity(intent);
 
@@ -442,7 +501,7 @@ public class KidsRegActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            dialog.setMessage("이미지 업로드 중...");
+            dialog.setMessage("처리중 입니다.");
             dialog.show();
         }
 
@@ -454,9 +513,9 @@ public class KidsRegActivity extends AppCompatActivity {
             try {
                 JSONObject json = new JSONObject(s);
                 if (json.getBoolean("result") == true) {// 가입 되어 있음
-                    Toast.makeText(KidsRegActivity.this,
-                            "이미지 서버 저장 성공",
-                            Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(KidsRegActivity.this,
+//                            "이미지 서버 저장 성공",
+//                            Toast.LENGTH_SHORT).show();
                     TextView name = (TextView)findViewById(R.id.name);
                     TextView birth = (TextView)findViewById(R.id.birth);
 
@@ -475,7 +534,8 @@ public class KidsRegActivity extends AppCompatActivity {
                     }
 
 //                    TextView gender = (TextView)findViewById(R.id.gender);
-                    image_url = "http://172.16.2.11:52274/upload_image/"+json.getString("url").toString();
+                    //image_url = BasicInfo.restFulServer+"/upload_image/"+json.getString("url").toString();
+                    image_url = json.getString("url").toString();
                     Log.i("name",name.getText().toString());
                     Log.i("birth",birth.getText().toString());
   //                  Log.i("gender",gender.getText().toString());
@@ -483,8 +543,8 @@ public class KidsRegActivity extends AppCompatActivity {
                     Log.i("hpkl_id", Integer.toString(int_hpkl_id));
                     Log.i("gender", gender);
                     new goChildGaip().execute(
-                            "http://172.16.2.11:52274/child",   // 회사
-                            //"http://172.16.2.11:52274/child", // 집
+                            BasicInfo.restFulServer+"/child",   // 회사
+                            //BasicInfo.restFulServer+"/child", // 집
                             Integer.toString(int_hpkl_id), name.getText().toString(), birth.getText().toString(), gender, image_url);
 
                 } else {//가입 안되어 있음
@@ -544,7 +604,7 @@ public class KidsRegActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            dialog.setMessage("가입여부 체크 중...");
+            dialog.setMessage("처리중 입니다.");
             dialog.show();
         }
         @Override
@@ -558,17 +618,17 @@ public class KidsRegActivity extends AppCompatActivity {
 
                     //hpkl_id = json.getString("hpkl_id");
                     int_hpkl_id = json.getInt("hpkl_id");
-                    Toast.makeText(KidsRegActivity.this,
-                            "가입 되어 있음",
-                            Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(KidsRegActivity.this,
+//                            "가입 되어 있음",
+//                            Toast.LENGTH_SHORT).show();
 
                     //Log.i("hpkl_id SJS", hpkl_id);
                     Log.i("int_hpkl_id SJS", Integer.toString(int_hpkl_id));
 
                 } else {//가입 안되어 있음
-                    Toast.makeText(KidsRegActivity.this,
-                            "가입 안되어 있음",
-                            Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(KidsRegActivity.this,
+//                            "가입 안되어 있음",
+//                            Toast.LENGTH_SHORT).show();
                 }
             } catch (Exception e) { e.printStackTrace(); }
         }
@@ -686,5 +746,87 @@ public class KidsRegActivity extends AppCompatActivity {
         Intent intent = new Intent(Intent.ACTION_PICK,
                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(intent, REQUEST_IMAGE_ALBUM);
+    }
+
+    // Bitmap to File
+    //bitmap에는 비트맵, strFilePath에 는 파일을 저장할 경로, strFilePath 에는 파일 이름을 할당해주면 됩니다.
+    public Bitmap createThumbnail(Bitmap bitmap, String filename, String height, String width) {
+
+        File storageDir = Environment.getExternalStorageDirectory();
+        File file = new File(storageDir.getAbsolutePath());
+        Log.i("bitmap.storageDir " , storageDir.getAbsolutePath());
+        Log.i("bitmap.filename " , filename);
+
+        // If no folders
+        if (!file.exists()) {
+            file.mkdirs();
+
+            Log.i("bitmap.filename 000" , "000");
+        }else{
+            Log.i("bitmap.filename 001" , "001");
+        }
+
+        Log.i("bitmap.filename 000" , storageDir.getAbsolutePath() + "/hpkl_"+filename);
+        File fileCacheItem = new File(storageDir.getAbsolutePath() + "/hpkl_"+filename);
+        OutputStream out = null;
+
+        Log.i("bitmap.filename 111" , "111");
+        try {
+
+            int height_get = Integer.parseInt(height);
+            int width_get = Integer.parseInt(width);
+
+            int height_imgget=bitmap.getHeight();
+            int width_imgget=bitmap.getWidth();
+
+            int height_final = 0;
+            int width_final = 0;
+
+            if(height.equals("1")) {
+                height_final = height_imgget;
+            }else {
+                height_final = height_get;
+            }
+
+            if(width.equals("1")) {
+                width_final = width_imgget;
+            }else {
+                width_final = width_get;
+            }
+
+
+
+            Log.i("bitmap height_get" , Integer.toString(height_get));
+            Log.i("bitmap height_imgget" , Integer.toString(height_imgget));
+            fileCacheItem.createNewFile();
+            Log.i("bitmap width_get" , Integer.toString(width_get));
+            Log.i("bitmap width_imgget" , Integer.toString(width_imgget));
+            out = new FileOutputStream(fileCacheItem);
+            Log.i("bitmap height_final" , Integer.toString(height_final));
+            Log.i("bitmap width_final" , Integer.toString(width_final));
+            Log.i("bitmap.filename 666" , "666");
+            //160 부분을 자신이 원하는 크기로 변경할 수 있습니다.
+            bitmap = Bitmap.createScaledBitmap(bitmap, width_final, height_final, true);
+            //bitmap = Bitmap.createScaledBitmap(bitmap, 160, height/(width/160), true);
+            //bitmap = Bitmap.createScaledBitmap(bitmap, 10, 20, true);
+            bitmap.compress(CompressFormat.JPEG, 50, out);
+
+
+
+            Log.i("bitmap.compress " , storageDir.getAbsolutePath() + "/hpkl_"+filename);
+
+        } catch (Exception e) {
+            Log.i("bitmap.filename 222" , "222");
+            e.printStackTrace();
+        } finally {
+            try {
+                Log.i("bitmap.filename 333" , "333");
+                out.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return bitmap;
     }
 }

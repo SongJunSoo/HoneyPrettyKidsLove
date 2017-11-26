@@ -42,8 +42,13 @@ public class BasicInfo {
 	/**
 	 * 데이터베이스 이름
 	 */
-	public static String DATABASE_NAME = "MultimediaMemo/memo.db";
+	public static String DATABASE_NAME = "MultimediaMemo/memo.db";	//========== NodeJS 서버 주소 ==========//
 
+	//1) 집
+	public static final String restFulServer = "http://192.168.0.22:52274";
+
+	//2) 맑은샘광천교회 2층 북카페
+	//public static String restFulServer = "http://192.168.10.17:52274";
 
 	//========== 인텐트 부가정보 전달을 위한 키값 ==========//
 	public static final String KEY_MEMO_MODE = "MEMO_MODE";
@@ -87,6 +92,8 @@ public class BasicInfo {
 	public static final int WARNING_INSERT_SDCARD = 1001;
 	public static final int IMAGE_CANNOT_BE_STORED = 1002;
 
+	public static final int SELECT_IMAGE = 2200;
+	public static final int SELECT_ITEM = 2000;
 	public static final int CONTENT_PHOTO = 2001;
 	public static final int CONTENT_VIDEO = 2002;
 	public static final int CONTENT_VOICE = 2003;

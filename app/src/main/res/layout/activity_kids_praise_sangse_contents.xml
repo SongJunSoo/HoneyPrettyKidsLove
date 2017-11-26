@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="org.honeypretty.honeyprettykidslove.KidsRegActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="43dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="45dp"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <com.github.siyamed.shapeimageview.RoundedImageView
+                android:id="@+id/roundedImageView_childImage"
+                android:layout_width="40dp"
+                android:layout_height="0dp"
+                android:layout_centerInParent="true"
+                android:baselineAlignBottom="false"
+                app:siBorderWidth="0dp"
+                app:siRadius="20dp"
+                app:siSquare="true" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:id="@+id/name"
+                android:textStyle="bold"
+                android:textColor="#0e0e0e"
+                android:layout_marginLeft="0dp"
+                android:gravity="top|left|center_vertical"
+                android:text=""/>
+
+            <TextView
+                android:id="@+id/datetime"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:textStyle="bold"
+                android:textColor="#0e0e0e"
+                android:gravity="top|left|center_vertical"
+                android:text=""/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#7ed6ec"
+        android:orientation="vertical">
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:orientation="horizontal"
+        android:paddingTop="5dp">
+
+        <LinearLayout
+            android:layout_width="45dp"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <com.github.siyamed.shapeimageview.RoundedImageView
+                android:id="@+id/roundedImageView_sticker"
+                android:layout_width="40dp"
+                android:layout_height="0dp"
+                android:layout_centerInParent="true"
+                android:baselineAlignBottom="false"
+                android:paddingBottom="10dp"
+                app:siBorderWidth="0dp"
+                app:siRadius="20dp"
+                app:siSquare="true" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/sticker_name"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:textStyle="bold"
+                android:textColor="#0e0e0e"
+                android:layout_marginLeft="0dp"
+                android:gravity="top|left|center_vertical"
+                android:paddingTop="10dp"
+                android:text=""/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#7ed6ec"
+        android:orientation="vertical">
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="230dp"
+        android:background="#f6f7f7">
+
+        <ImageView
+            android:id="@+id/praise_image"
+            android:layout_width="match_parent"
+            android:layout_height="230dp"
+            />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:background="#f7f3d5">
+
+        <TextView
+            android:id="@+id/comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerInParent="true"
+            android:paddingTop="5dp"
+            android:text="사진을 올려주세요" />
+
+        <com.github.siyamed.shapeimageview.RoundedImageView
+            android:id="@+id/roundedImageViewPic"
+            android:layout_width="30dp"
+            android:layout_height="0dp"
+            android:baselineAlignBottom="false"
+            android:src="@drawable/camera"
+            app:siBorderColor="@color/darkGray"
+            app:siBorderWidth="3dp"
+            app:siRadius="5dp"
+            app:siSquare="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="260dp"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/praise_memo"
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:ems="200"
+            android:hint="메모 내용 입력해 주세요"
+            android:inputType="text|textMultiLine" />
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            app:layout_constraintLeft_toRightOf="parent" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/update"
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginLeft="25dp"
+                android:background="#81d1e1"
+                android:text="수정"/>
+
+
+            <Button
+                android:id="@+id/delete"
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:background="#81d1e1"
+                android:text="삭제"/>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string-array name="array_image">
+        <item>원본이미지 보기</item>
+        <item>수정하기</item>
+    </string-array>
+    <string-array name="array_item">
+        <item>적립하기</item>
+        <item>사용하기</item>
+    </string-array>
     <string-array name="array_photo">
         <item>사진 촬영</item>
         <item>사진 불러오기</item>
