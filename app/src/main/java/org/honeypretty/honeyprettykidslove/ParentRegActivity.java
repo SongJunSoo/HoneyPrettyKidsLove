@@ -86,7 +86,7 @@ public class ParentRegActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_kids_reg);
+        setContentView(R.layout.activity_parent_reg);
 
         imageView = (ImageView)findViewById(R.id.imageViewTest);
         roundedImageViewPic = (com.github.siyamed.shapeimageview.RoundedImageView)findViewById(R.id.roundedImageViewPic);

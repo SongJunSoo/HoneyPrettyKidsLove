@@ -76,6 +76,7 @@ public class KidsPraiseSangseContents extends AppCompatActivity {
     private static int int_hpkl_child_total_saving_love = 0;
     private static String str_hpkl_child_date = "";
     private static String str_hpkl_child_time = "";
+    private static String str_hpkl_sayong_gbn = "";
     private static int int_hpkl_child_saving_love = 0;
 
     Button update;
@@ -365,9 +366,32 @@ public class KidsPraiseSangseContents extends AppCompatActivity {
         titlePan = (RelativeLayout)findViewById(R.id.titlePan);
         spinner = (Spinner)findViewById(R.id.spinner);
 
-        // 어댑터 객체 생성
-        adapter = new ArrayAdapter<String>(
-                this, android.R.layout.simple_spinner_item, items);
+        intent = getIntent();
+
+        int childCnt = itemList3.size();
+
+        str_hpkl_id = intent.getStringExtra("parent_hpkl_id");
+        str_hpkl_child_id = intent.getStringExtra("child_hpkl_id");
+        str_hpkl_child_date = intent.getStringExtra("str_hpkl_child_date");
+        str_hpkl_child_time = intent.getStringExtra("str_hpkl_child_time");
+        int_hpkl_child_saving_love = intent.getIntExtra("int_hpkl_child_saving_love ",0);
+        str_hpkl_sayong_gbn = intent.getStringExtra("str_hpkl_sayong_gbn");
+
+        if(str_hpkl_sayong_gbn.equals("1")){
+            //sayong_gbn.setText("적립");
+
+            // 어댑터 객체 생성
+            adapter = new ArrayAdapter<String>(
+                    this, android.R.layout.simple_spinner_item, items);
+
+        }else{
+            //sayong_gbn.setText("지출");
+
+            // 어댑터 객체 생성
+            adapter = new ArrayAdapter<String>(
+                    this, android.R.layout.simple_spinner_item, items2);
+        }
+
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         // 어댑터 설정
@@ -389,28 +413,7 @@ public class KidsPraiseSangseContents extends AppCompatActivity {
         });
 
 
-        delete.setOnClickListener(new View.OnClickListener(){
 
-            public void onClick(View view) {
-
-                new goPraiseDelete().execute(
-                        BasicInfo.restFulServer + "/child/praise/delete",   // 회사
-                        //BasicInfo.restFulServer+"/child", // 집
-                        str_hpkl_id, str_hpkl_child_id, str_hpkl_child_date, str_hpkl_child_time, Integer.toString(int_hpkl_child_saving_love));
-
-            }
-        });
-
-
-        intent = getIntent();
-
-        int childCnt = itemList3.size();
-
-        str_hpkl_id = intent.getStringExtra("parent_hpkl_id");
-        str_hpkl_child_id = intent.getStringExtra("child_hpkl_id");
-        str_hpkl_child_date = intent.getStringExtra("str_hpkl_child_date");
-        str_hpkl_child_time = intent.getStringExtra("str_hpkl_child_time");
-        int_hpkl_child_saving_love = intent.getIntExtra("int_hpkl_child_saving_love ",0);
 
         //Toast.makeText(getApplicationContext(), "str_hpkl_child_date : " + str_hpkl_child_date + ",  str_hpkl_child_time =" +str_hpkl_child_time, Toast.LENGTH_LONG).show();
 
@@ -418,6 +421,34 @@ public class KidsPraiseSangseContents extends AppCompatActivity {
         Log.i("SJS www str_hpkl_id", str_hpkl_child_id);
         Log.i("SJS str_hpkl_child_date", str_hpkl_child_date);
         Log.i("SJS str_hpkl_child_time", str_hpkl_child_time);
+
+
+        delete.setOnClickListener(new View.OnClickListener(){
+
+            public void onClick(View view) {
+
+                if(str_hpkl_sayong_gbn.equals("1")){
+                    //sayong_gbn.setText("적립");
+
+                    new goPraiseDelete().execute(
+                            BasicInfo.restFulServer + "/child/praise/delete",   // 회사
+                            //BasicInfo.restFulServer+"/child", // 집
+                            str_hpkl_id, str_hpkl_child_id, str_hpkl_child_date, str_hpkl_child_time, Integer.toString(int_hpkl_child_saving_love));
+
+                }else{
+                    //sayong_gbn.setText("지출");
+
+                    new goPraiseDelete().execute(
+                            BasicInfo.restFulServer + "/child/present/delete",   // 회사
+                            //BasicInfo.restFulServer+"/child", // 집
+                            str_hpkl_id, str_hpkl_child_id, str_hpkl_child_date, str_hpkl_child_time, Integer.toString(int_hpkl_child_saving_love));
+
+                }
+
+
+
+            }
+        });
 
         try {
             new goPraiseSangse().execute(
@@ -1242,6 +1273,93 @@ public class KidsPraiseSangseContents extends AppCompatActivity {
     }
 
     class goPraiseDelete extends AsyncTask<String,String,String> {
+        ProgressDialog dialog = new ProgressDialog(KidsPraiseSangseContents.this);
+        @Override
+        protected String doInBackground(String... params) {
+            StringBuilder output = new StringBuilder();
+            try {
+
+                URL url = new URL(params[0]);
+                JSONObject postDataParams = new JSONObject();
+                postDataParams.put("hpkl_id", params[1]);
+                postDataParams.put("hpkl_child_id", params[2]);
+                postDataParams.put("hpkl_date", params[3]);
+                postDataParams.put("hpkl_time", params[4]);
+                postDataParams.put("hpkl_saving_love", params[5]);
+//                postDataParams.put("hpkl_praise_memo", params[6]);
+//                postDataParams.put("hpkl_praise_picture_url", params[7]);
+//                postDataParams.put("hpkl_sticker_name", params[8]);
+
+
+                HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+                if (conn != null) {
+                    conn.setConnectTimeout(10000);
+                    conn.setRequestMethod("POST");
+                    conn.setDoInput(true); conn.setDoOutput(true);
+                    OutputStream os = conn.getOutputStream();
+                    BufferedWriter writer = new BufferedWriter(
+                            new OutputStreamWriter(os, "UTF-8"));
+                    writer.write(getPostDataString(postDataParams));
+                    writer.flush();
+                    writer.close();
+                    os.close();
+                    BufferedReader reader = new BufferedReader(
+                            new InputStreamReader(conn.getInputStream()));
+                    String line = null;
+                    while(true) {
+                        line = reader.readLine();
+                        if (line == null) break;
+                        output.append(line);
+                    }
+                    reader.close();
+                    conn.disconnect();
+                }
+            } catch (Exception e) { e.printStackTrace(); }
+            return output.toString();
+        }
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            dialog.setMessage("처리중 입니다.");
+            dialog.show();
+        }
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            dialog.dismiss();
+            Log.i("SJS => result", s);
+            try {
+                JSONObject json = new JSONObject(s);
+                if (json.getBoolean("result") == true) {// 가입 되어 있음
+
+                    Toast.makeText(KidsPraiseSangseContents.this,
+                            "삭제 성공",
+                            Toast.LENGTH_SHORT).show();
+
+                    str_hpkl_id = json.getString("hpkl_id");
+                    str_hpkl_child_id = json.getString("hpkl_child_id");
+
+                    Intent intent = new Intent(KidsPraiseSangseContents.this,
+                            ChildViewListActivity.class);
+
+                    intent.putExtra("parent_hpkl_id", str_hpkl_id);
+                    intent.putExtra("child_hpkl_id", str_hpkl_child_id);
+                    Log.i("SJS qqq parent_hpkl_id", str_hpkl_id);
+                    Log.i("SJS qqq child_hpkl_id", str_hpkl_child_id);
+
+                    startActivity(intent);
+
+                } else {//가입 안되어 있음
+
+                    Toast.makeText(KidsPraiseSangseContents.this,
+                            "삭제 실패",
+                            Toast.LENGTH_SHORT).show();
+                }
+            } catch (Exception e) { e.printStackTrace(); }
+        }
+    }
+
+    class goPraiseUpdate extends AsyncTask<String,String,String> {
         ProgressDialog dialog = new ProgressDialog(KidsPraiseSangseContents.this);
         @Override
         protected String doInBackground(String... params) {

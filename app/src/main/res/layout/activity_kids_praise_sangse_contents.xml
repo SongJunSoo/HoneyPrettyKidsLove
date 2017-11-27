@@ -163,13 +163,13 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="260dp"
+        android:layout_height="240dp"
         android:orientation="vertical">
 
         <EditText
             android:id="@+id/praise_memo"
             android:layout_width="match_parent"
-            android:layout_height="140dp"
+            android:layout_height="150dp"
             android:ems="200"
             android:hint="메모 내용 입력해 주세요"
             android:inputType="text|textMultiLine" />
@@ -178,12 +178,14 @@
             android:id="@+id/spinner"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            app:layout_constraintLeft_toRightOf="parent" />
+            app:layout_constraintLeft_toRightOf="parent"
+            android:layout_marginBottom="5dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginBottom="5dp">
 
             <Button
                 android:id="@+id/update"
@@ -193,7 +195,7 @@
                 android:gravity="center"
                 android:layout_marginLeft="25dp"
                 android:background="#81d1e1"
-                android:text="수정"/>
+                android:text="수   정"/>
 
 
             <Button
@@ -204,7 +206,7 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:background="#81d1e1"
-                android:text="삭제"/>
+                android:text="삭   제"/>
 
 
         </LinearLayout>

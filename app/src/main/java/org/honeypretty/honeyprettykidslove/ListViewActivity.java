@@ -18,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -44,7 +45,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class ListViewActivity extends AppCompatActivity {
-    ListView listView = null;
+
 
     private static String device_token = "";
     com.github.siyamed.shapeimageview.RoundedImageView roundedImageViewPic_1;
@@ -56,12 +57,18 @@ public class ListViewActivity extends AppCompatActivity {
 
     private static String str_hpkl_id = "";
     private static String str_hpkl_child_id = "";
+    private static String str_hpkl_child_date = "";
+    private static String str_hpkl_child_time = "";
+    private static String str_hpkl_sayong_gbn = "";
+    private static int int_hpkl_child_saving_love = 0;
 
     private static int int_hpkl_id = 0;
 
     ImageView parentImage;
+    ListView listView = null;
 
     GestureDetector detector;
+    GestureDetector detector2;
     private static final int SWIPE_MIN_DISTANCE = 120;
     private static final int SWIPE_MAX_OFF_PATH = 250;
     private static final int SWIPE_THRESHOLD_VELOCITY = 200;
@@ -394,6 +401,7 @@ public class ListViewActivity extends AppCompatActivity {
         roundedImageViewPic_folding = (com.github.siyamed.shapeimageview.RoundedImageView)findViewById(R.id.roundedImageViewPic_folding);
         titlePan = (RelativeLayout)findViewById(R.id.titlePan);
         parentImage = (ImageView)findViewById(R.id.parentImage);
+        listView = (ListView)findViewById(R.id.listview);
 
 //        listView = (ListView)findViewById(R.id.listview);
 //        itemList.add(new Item(R.drawable.a_1, "1000원 적립", "2017.09.02"));
@@ -408,6 +416,106 @@ public class ListViewActivity extends AppCompatActivity {
 //        itemAdpater = new ItemAdapter(ListViewActivity.this, R.layout.list_item,
 //                itemList);
 //        listView.setAdapter(itemAdpater);
+
+        //교재 p707~p713 Firebase 설정 적용
+        //Registration ID
+        //최초 접속시에 토큰아이디로 가입여부 체크
+        Log.i("restFulServer",  BasicInfo.restFulServer+"/parent");
+        try {
+            device_token = FirebaseInstanceId.getInstance().getToken();
+            Log.i("device_token", device_token);
+            new gaipCheck().execute(
+                    BasicInfo.restFulServer+"/parent", device_token); // 회사
+            //BasicInfo.restFulServer+"/parent", device_token);  // 집
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        // 아이 이미지 터치시에 터치 이벤트 감지
+        parentImage.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+
+                detector.onTouchEvent(motionEvent);
+                return true;
+            }
+        });
+
+        roundedImageViewPic_1.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+                Intent intent = new Intent(ListViewActivity.this,
+                        ListViewActivity.class);
+                startActivity(intent);
+
+            }
+        });
+
+        roundedImageViewPic_2.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+//                Intent intent1 = new Intent(ListViewActivity.this, ChildViewListActivity.class);
+//
+//                intent1.putExtra("parent_hpkl_id",str_hpkl_id);
+//                intent1.putExtra("child_hpkl_id", "1");
+//
+//                startActivity(intent1);
+
+                int child_id = 1;
+                Log.i("SJS uuu child_id =", Integer.toString(child_id));
+
+                //Toast.makeText(getApplicationContext(), "List View str_hpkl_id : " + str_hpkl_id + ", child_id =" + child_id, Toast.LENGTH_LONG).show();
+
+                try {
+                    new goFindChild().execute(
+                            BasicInfo.restFulServer+"/child/",   // 회사
+                            //BasicInfo.restFulServer+"/child", // 집
+                            str_hpkl_id, Integer.toString(child_id));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        });
+
+        roundedImageViewPic_3.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+                Intent intent = new Intent(ListViewActivity.this,
+                        KidsRegActivity.class);
+                startActivity(intent);
+
+            }
+        });
+
+        roundedImageViewPic_4.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+//                Intent intent = new Intent(ListViewActivity.this,
+//                        KidsStatisticsActivity.class);
+
+                Intent intent = new Intent(ListViewActivity.this,
+                      ParentRegActivity.class);
+
+                startActivity(intent);
+
+            }
+        });
+
+        roundedImageViewPic_folding.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+                if (titlePan.getVisibility() != View.GONE) {
+                    titlePan.setVisibility(View.GONE);
+                    roundedImageViewPic_folding.setImageResource(R.drawable.down_key);
+                } else {
+                    titlePan.setVisibility(View.VISIBLE);
+                    roundedImageViewPic_folding.setImageResource(R.drawable.top_key);
+                }
+            }
+        });
 
         detector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener(){
 
@@ -526,101 +634,58 @@ public class ListViewActivity extends AppCompatActivity {
             }
         });
 
-        //교재 p707~p713 Firebase 설정 적용
-        //Registration ID
-        //최초 접속시에 토큰아이디로 가입여부 체크
-        Log.i("restFulServer",  BasicInfo.restFulServer+"/parent");
-        try {
-            device_token = FirebaseInstanceId.getInstance().getToken();
-            Log.i("device_token", device_token);
-            new gaipCheck().execute(
-                    BasicInfo.restFulServer+"/parent", device_token); // 회사
-            //BasicInfo.restFulServer+"/parent", device_token);  // 집
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-        // 아이 이미지 터치시에 터치 이벤트 감지
-        parentImage.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
 
-                detector.onTouchEvent(motionEvent);
-                return true;
-            }
-        });
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        roundedImageViewPic_1.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
+//                itemList.get(position).hpkl_id
+//                itemList.get(position).hpkl_child_id
+//                itemList.get(position).hpkl_date
+//                itemList.get(position).hpkl_time
+//                itemList.get(position).hpkl_saving_love
+//                itemList.get(position).hpkl_praise_memo
+//                itemList.get(position).hpkl_praise_picture_url
+//                itemList.get(position).hpkl_sticker_name
+//                itemList.get(position).hpkl_child_name
+//                itemList.get(position).hpkl_child_picture_url
+//                itemList.get(position).hpkl_sayong_gbn
 
-                Intent intent = new Intent(ListViewActivity.this,
-                        ListViewActivity.class);
-                startActivity(intent);
+//                  Log.i("SJS sel 1", itemList.get(position).hpkl_id);
+//                  Log.i("SJS sel 1", itemList.get(position).hpkl_child_id);
+//                  Log.i("SJS sel 1", itemList.get(position).hpkl_date);
+//                  Log.i("SJS sel 1", itemList.get(position).hpkl_time);
 
-            }
-        });
+                str_hpkl_id = itemList.get(position).hpkl_id;
+                str_hpkl_child_id = itemList.get(position).hpkl_child_id;
+                str_hpkl_child_date = itemList.get(position).hpkl_date;
+                str_hpkl_child_time = itemList.get(position).hpkl_time;
+                //int_hpkl_child_saving_love = Integer.parseInt(itemList.get(position).hpkl_saving_love);
+                str_hpkl_sayong_gbn = itemList.get(position).hpkl_sayong_gbn;
 
-        roundedImageViewPic_2.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
+//                Toast.makeText(getApplicationContext(), "Selected : " + Integer.toString(position), Toast.LENGTH_LONG).show();
 
-//                Intent intent1 = new Intent(ListViewActivity.this, ChildViewListActivity.class);
-//
-//                intent1.putExtra("parent_hpkl_id",str_hpkl_id);
-//                intent1.putExtra("child_hpkl_id", "1");
-//
-//                startActivity(intent1);
+                //showDialog(BasicInfo.SELECT_IMAGE);
 
-                int child_id = 1;
-                Log.i("SJS uuu child_id =", Integer.toString(child_id));
-
-                //Toast.makeText(getApplicationContext(), "List View str_hpkl_id : " + str_hpkl_id + ", child_id =" + child_id, Toast.LENGTH_LONG).show();
-
-                try {
-                    new goFindChild().execute(
-                            BasicInfo.restFulServer+"/child/",   // 회사
-                            //BasicInfo.restFulServer+"/child", // 집
-                            str_hpkl_id, Integer.toString(child_id));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                Intent intent2 = new Intent(ListViewActivity.this,
+                        KidsPraiseSangseContents.class);
+                intent2.putExtra("parent_hpkl_id",str_hpkl_id);
+                intent2.putExtra("child_hpkl_id",str_hpkl_child_id);
+                intent2.putExtra("str_hpkl_child_date",str_hpkl_child_date );
+                intent2.putExtra("str_hpkl_child_time",str_hpkl_child_time );
+                intent2.putExtra("int_hpkl_child_saving_love",int_hpkl_child_saving_love);
+                intent2.putExtra("str_hpkl_sayong_gbn",str_hpkl_sayong_gbn);
 
 
-            }
-        });
+                Log.i("SJS str_hpkl_child_date", str_hpkl_child_date);
+                Log.i("SJS str_hpkl_child_time", str_hpkl_child_time);
 
-        roundedImageViewPic_3.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-
-                Intent intent = new Intent(ListViewActivity.this,
-                        KidsRegActivity.class);
-                startActivity(intent);
+                startActivity(intent2);
 
             }
+
         });
-
-        roundedImageViewPic_4.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-
-                Intent intent = new Intent(ListViewActivity.this,
-                        KidsStatisticsActivity.class);
-                startActivity(intent);
-
-            }
-        });
-
-        roundedImageViewPic_folding.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-
-                if (titlePan.getVisibility() != View.GONE) {
-                    titlePan.setVisibility(View.GONE);
-                    roundedImageViewPic_folding.setImageResource(R.drawable.down_key);
-                } else {
-                    titlePan.setVisibility(View.VISIBLE);
-                    roundedImageViewPic_folding.setImageResource(R.drawable.top_key);
-                }
-            }
-        });
-
 
     }
 
@@ -839,6 +904,7 @@ public class ListViewActivity extends AppCompatActivity {
                         String hpkl_child_id = obj.getString("hpkl_child_id");
                         String hpkl_date = obj.getString("hpkl_date");
                         String hpkl_time = obj.getString("hpkl_time");
+                        int_hpkl_child_saving_love = Integer.parseInt(obj.getString("hpkl_saving_love"));
                         String hpkl_saving_love = obj.getString("hpkl_saving_love");
                         String hpkl_praise_memo = obj.getString("hpkl_praise_memo");
                         String hpkl_praise_picture_url = obj.getString("hpkl_praise_picture_url");
@@ -853,7 +919,7 @@ public class ListViewActivity extends AppCompatActivity {
 
                         try {
                             BookAdapter adapter = new BookAdapter(ListViewActivity.this);
-                            ListView listView = (ListView)findViewById(R.id.listview);
+                            listView = (ListView)findViewById(R.id.listview);
                             listView.setAdapter(adapter);
                         } catch (Exception e) {
                             Log.i("DDDDDDDDDDDDDDDDD00","11");

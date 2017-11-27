@@ -80,6 +80,7 @@ public class ChildViewListActivity extends AppCompatActivity {
     private static String str_hpkl_child_id = "";
     private static String str_hpkl_child_date = "";
     private static String str_hpkl_child_time = "";
+    private static String str_hpkl_sayong_gbn = "";
     private static int int_hpkl_child_saving_love = 0;
 
     private static int int_hpkl_child_total_saving_love = 0;
@@ -492,6 +493,9 @@ public class ChildViewListActivity extends AppCompatActivity {
 
             @Override
             public boolean onSingleTapUp(MotionEvent e) {
+
+                showDialog(BasicInfo.SELECT_ITEM);
+
                 return super.onSingleTapUp(e);
             }
 
@@ -617,7 +621,7 @@ public class ChildViewListActivity extends AppCompatActivity {
             @Override
             public boolean onDoubleTap(MotionEvent e) {
 
-                showDialog(BasicInfo.SELECT_ITEM);
+                //showDialog(BasicInfo.SELECT_ITEM);
 
                 return super.onDoubleTap(e);
             }
@@ -637,6 +641,7 @@ public class ChildViewListActivity extends AppCompatActivity {
                 return super.onContextClick(e);
             }
         });
+
         detector2 = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener(){
 
 
@@ -830,10 +835,26 @@ public class ChildViewListActivity extends AppCompatActivity {
                   str_hpkl_child_date = itemList.get(position).hpkl_date;
                   str_hpkl_child_time = itemList.get(position).hpkl_time;
                   //int_hpkl_child_saving_love = Integer.parseInt(itemList.get(position).hpkl_saving_love);
+                  str_hpkl_sayong_gbn = itemList.get(position).hpkl_sayong_gbn;
 
 //                Toast.makeText(getApplicationContext(), "Selected : " + Integer.toString(position), Toast.LENGTH_LONG).show();
 
-                showDialog(BasicInfo.SELECT_IMAGE);
+                //showDialog(BasicInfo.SELECT_IMAGE);
+
+                Intent intent2 = new Intent(ChildViewListActivity.this,
+                        KidsPraiseSangseContents.class);
+                intent2.putExtra("parent_hpkl_id",str_hpkl_id);
+                intent2.putExtra("child_hpkl_id",str_hpkl_child_id);
+                intent2.putExtra("str_hpkl_child_date",str_hpkl_child_date );
+                intent2.putExtra("str_hpkl_child_time",str_hpkl_child_time );
+                intent2.putExtra("int_hpkl_child_saving_love",int_hpkl_child_saving_love);
+                intent2.putExtra("str_hpkl_sayong_gbn",str_hpkl_sayong_gbn);
+
+
+                Log.i("SJS str_hpkl_child_date", str_hpkl_child_date);
+                Log.i("SJS str_hpkl_child_time", str_hpkl_child_time);
+
+                startActivity(intent2);
 
             }
 
@@ -924,8 +945,12 @@ public class ChildViewListActivity extends AppCompatActivity {
         roundedImageViewPic_4.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
+//                Intent intent = new Intent(ListViewActivity.this,
+//                        KidsStatisticsActivity.class);
+
                 Intent intent = new Intent(ChildViewListActivity.this,
-                        KidsStatisticsActivity.class);
+                        ParentRegActivity.class);
+
                 startActivity(intent);
 
             }
@@ -1568,6 +1593,7 @@ public class ChildViewListActivity extends AppCompatActivity {
                         String hpkl_child_id = obj.getString("hpkl_child_id");
                         String hpkl_date = obj.getString("hpkl_date");
                         String hpkl_time = obj.getString("hpkl_time");
+                        int_hpkl_child_saving_love = Integer.parseInt(obj.getString("hpkl_saving_love"));
                         int formatChildMoney = Integer.parseInt(obj.getString("hpkl_saving_love"));
                         String hpkl_saving_love = String.format("%,d",formatChildMoney);
 

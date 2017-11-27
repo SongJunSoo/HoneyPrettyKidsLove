@@ -115,7 +115,7 @@ public class KidsPresentRegActivity extends AppCompatActivity {
         str_praise_sticker_name = intent.getStringExtra("praise_sticker_name");
         int_hpkl_child_total_saving_love = intent.getIntExtra("child_total_saving_love",0);
 
-        Toast.makeText(getApplicationContext(), "str_praise_sticker_name ="+str_praise_sticker_name+"int_hpkl_child_total_saving_love : " + int_hpkl_child_total_saving_love, Toast.LENGTH_LONG).show();
+        //Toast.makeText(getApplicationContext(), "str_praise_sticker_name ="+str_praise_sticker_name+"int_hpkl_child_total_saving_love : " + int_hpkl_child_total_saving_love, Toast.LENGTH_LONG).show();
         //Toast.makeText(getApplicationContext(), "getDate() : " + getDate() + ", getTime() =" + getTime(), Toast.LENGTH_LONG).show();
 
 
