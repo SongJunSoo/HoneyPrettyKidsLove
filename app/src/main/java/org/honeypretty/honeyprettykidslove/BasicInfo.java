@@ -45,10 +45,13 @@ public class BasicInfo {
 	public static String DATABASE_NAME = "MultimediaMemo/memo.db";	//========== NodeJS 서버 주소 ==========//
 
 	//1) 집
-	public static final String restFulServer = "http://192.168.0.22:52274";
+	//public static final String restFulServer = "http://192.168.0.22:52274";
 
 	//2) 맑은샘광천교회 2층 북카페
 	//public static String restFulServer = "http://192.168.10.17:52274";
+
+	//3) AWS 서버
+	public static String restFulServer = "http://13.125.12.175:52274";
 
 	//========== 인텐트 부가정보 전달을 위한 키값 ==========//
 	public static final String KEY_MEMO_MODE = "MEMO_MODE";

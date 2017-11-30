@@ -169,7 +169,7 @@
         <EditText
             android:id="@+id/praise_memo"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="110dp"
             android:ems="200"
             android:hint="메모 내용 입력해 주세요"
             android:inputType="text|textMultiLine" />
@@ -190,7 +190,7 @@
             <Button
                 android:id="@+id/update"
                 android:layout_width="150dp"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:layout_marginLeft="25dp"
@@ -201,7 +201,7 @@
             <Button
                 android:id="@+id/delete"
                 android:layout_width="150dp"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
                 android:layout_marginLeft="10dp"
                 android:layout_gravity="center"
                 android:gravity="center"

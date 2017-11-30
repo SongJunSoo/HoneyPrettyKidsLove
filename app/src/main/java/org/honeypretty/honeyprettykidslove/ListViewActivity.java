@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -54,6 +55,7 @@ public class ListViewActivity extends AppCompatActivity {
     com.github.siyamed.shapeimageview.RoundedImageView roundedImageViewPic_4;
     com.github.siyamed.shapeimageview.RoundedImageView roundedImageViewPic_folding;
     RelativeLayout titlePan;
+    LinearLayout dot_img;
 
     private static String str_hpkl_id = "";
     private static String str_hpkl_child_id = "";
@@ -402,6 +404,7 @@ public class ListViewActivity extends AppCompatActivity {
         titlePan = (RelativeLayout)findViewById(R.id.titlePan);
         parentImage = (ImageView)findViewById(R.id.parentImage);
         listView = (ListView)findViewById(R.id.listview);
+        dot_img = (LinearLayout)findViewById(R.id.dot_img);
 
 //        listView = (ListView)findViewById(R.id.listview);
 //        itemList.add(new Item(R.drawable.a_1, "1000원 적립", "2017.09.02"));
@@ -510,8 +513,11 @@ public class ListViewActivity extends AppCompatActivity {
                 if (titlePan.getVisibility() != View.GONE) {
                     titlePan.setVisibility(View.GONE);
                     roundedImageViewPic_folding.setImageResource(R.drawable.down_key);
+                    titlePan.setVisibility(View.GONE);
+                    dot_img.setVisibility(View.GONE);
                 } else {
                     titlePan.setVisibility(View.VISIBLE);
+                    dot_img.setVisibility(View.VISIBLE);
                     roundedImageViewPic_folding.setImageResource(R.drawable.top_key);
                 }
             }
@@ -1048,7 +1054,7 @@ public class ListViewActivity extends AppCompatActivity {
                 } else {//
 
                     Toast.makeText(ListViewActivity.this,
-                            "아동 없음",
+                            "아이 정보가 없습니다.\n아이 정보를 등록해 주세요.",
                             Toast.LENGTH_SHORT).show();
 
                     Intent intent2 = new Intent(ListViewActivity.this,

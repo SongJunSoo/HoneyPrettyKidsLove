@@ -26,6 +26,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -72,6 +73,7 @@ public class ChildViewListActivity extends AppCompatActivity {
     RelativeLayout titlePan;
     ListView listView = null;
     BookAdapter adapter;
+    LinearLayout dot_img;
 
     private static String hpkl_id = "";
     private static int int_hpkl_id = 0;
@@ -487,6 +489,7 @@ public class ChildViewListActivity extends AppCompatActivity {
         parentImage = (ImageView)findViewById(R.id.parentImage);
         titlePan = (RelativeLayout)findViewById(R.id.titlePan);
         listView = (ListView)findViewById(R.id.listview);
+        dot_img = (LinearLayout)findViewById(R.id.dot_img);
 
         detector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener(){
 
@@ -935,8 +938,10 @@ public class ChildViewListActivity extends AppCompatActivity {
                 if (titlePan.getVisibility() != View.GONE) {
                     titlePan.setVisibility(View.GONE);
                     roundedImageViewPic_folding.setImageResource(R.drawable.down_key);
+                    dot_img.setVisibility(View.GONE);
                 } else {
                     titlePan.setVisibility(View.VISIBLE);
+                    dot_img.setVisibility(View.VISIBLE);
                     roundedImageViewPic_folding.setImageResource(R.drawable.top_key);
                 }
             }

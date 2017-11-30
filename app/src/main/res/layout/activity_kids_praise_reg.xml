@@ -105,7 +105,7 @@
         <EditText
             android:id="@+id/memo"
             android:layout_width="match_parent"
-            android:layout_height="180dp"
+            android:layout_height="140dp"
             android:ems="200"
             android:hint="메모 내용 입력해 주세요"
             android:inputType="text|textMultiLine" />

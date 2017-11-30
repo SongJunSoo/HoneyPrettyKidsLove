@@ -11,6 +11,21 @@
 
     <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="#efebef"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/dot_image2"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@drawable/dott" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="#f7f3d5"
         android:orientation="horizontal">
@@ -22,10 +37,10 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:layout_marginLeft="45dp"
             android:layout_marginRight="40dp"
+            android:layout_marginTop="5dp"
             android:baselineAlignBottom="false"
             android:src="@drawable/titleimage_2"
             app:siBorderColor="@color/darkGray"
@@ -37,12 +52,12 @@
             android:id="@+id/roundedImageViewPic_2"
             android:layout_width="40dp"
             android:layout_height="0dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
+            android:layout_marginBottom="5dp"
             android:layout_marginRight="40dp"
+            android:layout_marginTop="5dp"
             android:baselineAlignBottom="false"
             android:src="@drawable/titleimage_4"
             app:siBorderColor="@color/darkGray"
@@ -54,12 +69,12 @@
             android:id="@+id/roundedImageViewPic_3"
             android:layout_width="40dp"
             android:layout_height="0dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
+            android:layout_marginBottom="5dp"
             android:layout_marginRight="40dp"
+            android:layout_marginTop="5dp"
             android:baselineAlignBottom="false"
             android:src="@drawable/titleimage_3"
             app:siBorderColor="@color/darkGray"
@@ -71,12 +86,12 @@
             android:id="@+id/roundedImageViewPic_4"
             android:layout_width="40dp"
             android:layout_height="0dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
+            android:layout_marginBottom="5dp"
             android:layout_marginRight="30dp"
+            android:layout_marginTop="5dp"
             android:baselineAlignBottom="false"
             android:src="@drawable/titleimage_5"
             app:siBorderColor="@color/darkGray"
@@ -87,6 +102,20 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="#efebef"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/dot_image4"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@drawable/dott" />
+
+    </LinearLayout>
 
     <RelativeLayout
         android:id="@+id/titlePan"
@@ -98,8 +127,24 @@
             android:id="@+id/parentImage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:scaleType="fitXY"
             />
      </RelativeLayout>
+    <LinearLayout
+        android:id="@+id/dot_img"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="#efebef"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/dot_image3"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@drawable/dott" />
+
+    </LinearLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -132,6 +177,21 @@
             app:siSquare="true" />
 
     </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="#efebef"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/dot_image"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@drawable/dott" />
+
+    </LinearLayout>
 
     <RelativeLayout
         android:layout_height="match_parent"

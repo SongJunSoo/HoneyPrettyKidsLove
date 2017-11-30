@@ -10,7 +10,6 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -38,22 +37,27 @@ public class PresentStickerChoice extends AppCompatActivity {
         str_hpkl_child_id = intent.getStringExtra("child_hpkl_id");
         int_hpkl_child_total_saving_love = intent.getIntExtra("child_total_saving_love",0);
 
-        Toast.makeText(getApplicationContext(), "int_hpkl_child_total_saving_love : " + int_hpkl_child_total_saving_love, Toast.LENGTH_LONG).show();
+        //Toast.makeText(getApplicationContext(), "int_hpkl_child_total_saving_love : " + int_hpkl_child_total_saving_love, Toast.LENGTH_LONG).show();
 
 
         adapter = new SingerAdapter();
 
-        adapter.addItem(new PresentStickerItem("책 읽어주기", R.drawable.sticker_2));
-        adapter.addItem(new PresentStickerItem("산책/운동하기", R.drawable.sticker_2));
-        adapter.addItem(new PresentStickerItem("함께 놀이터 가기", R.drawable.sticker_2));
         adapter.addItem(new PresentStickerItem("키즈 카페가기", R.drawable.sticker_2));
-        adapter.addItem(new PresentStickerItem("외식 하기", R.drawable.sticker_2));
-        adapter.addItem(new PresentStickerItem("영화 보러 가기", R.drawable.sticker_2));
         adapter.addItem(new PresentStickerItem("놀이동산 가기", R.drawable.sticker_2));
+        adapter.addItem(new PresentStickerItem("외식 하기", R.drawable.sticker_2));
+        adapter.addItem(new PresentStickerItem("친구들과 놀기", R.drawable.sticker_2));
+        adapter.addItem(new PresentStickerItem("책 읽어주기", R.drawable.sticker_2));
+
+
+        adapter.addItem(new PresentStickerItem("함께 놀이터 가기", R.drawable.sticker_2));
+
+
+        adapter.addItem(new PresentStickerItem("영화 보러 가기", R.drawable.sticker_2));
+        adapter.addItem(new PresentStickerItem("산책/운동하기", R.drawable.sticker_2));
         adapter.addItem(new PresentStickerItem("여행 가기", R.drawable.sticker_2));
         adapter.addItem(new PresentStickerItem("과자 먹기", R.drawable.sticker_2));
         adapter.addItem(new PresentStickerItem("TV 보기", R.drawable.sticker_2));
-        adapter.addItem(new PresentStickerItem("친구들과 놀기", R.drawable.sticker_2));
+
         adapter.addItem(new PresentStickerItem("장난감/인형 선물", R.drawable.sticker_2));
         adapter.addItem(new PresentStickerItem("스포츠 용품 선물", R.drawable.sticker_2));
         adapter.addItem(new PresentStickerItem("예쁜/멋진 옷 선물", R.drawable.sticker_2));
@@ -92,7 +96,7 @@ public class PresentStickerChoice extends AppCompatActivity {
                 intent.putExtra("praise_sticker_name",item.getName());
                 intent.putExtra("child_total_saving_love",int_hpkl_child_total_saving_love);
 
-                Toast.makeText(getApplicationContext(), "int_hpkl_child_total_saving_love2 : " + int_hpkl_child_total_saving_love, Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), "int_hpkl_child_total_saving_love2 : " + int_hpkl_child_total_saving_love, Toast.LENGTH_LONG).show();
                 startActivity(intent);
 
             }

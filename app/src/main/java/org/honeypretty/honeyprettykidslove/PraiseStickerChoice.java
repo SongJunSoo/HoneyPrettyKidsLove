@@ -39,16 +39,25 @@ public class PraiseStickerChoice extends AppCompatActivity {
 
         adapter = new SingerAdapter();
 
-
+        adapter.addItem(new PraiseStickerItem("이닦기", R.drawable.sticker_1));
         adapter.addItem(new PraiseStickerItem("일찍 자기", R.drawable.sticker_1));
+        adapter.addItem(new PraiseStickerItem("떼쓰지 않기", R.drawable.sticker_1));
+        adapter.addItem(new PraiseStickerItem("세수하기", R.drawable.sticker_1));
+        adapter.addItem(new PraiseStickerItem("손씻기", R.drawable.sticker_1));
+        adapter.addItem(new PraiseStickerItem("목욕하기", R.drawable.sticker_1));
+        adapter.addItem(new PraiseStickerItem("친구와인사하기", R.drawable.sticker_1));
+
+        adapter.addItem(new PraiseStickerItem("책 읽기", R.drawable.sticker_1));
+        adapter.addItem(new PraiseStickerItem("친구와사이좋게지내기", R.drawable.sticker_1));
+        adapter.addItem(new PraiseStickerItem("동생돌보기", R.drawable.sticker_1));
         adapter.addItem(new PraiseStickerItem("일찍 일어나기", R.drawable.sticker_1));
         adapter.addItem(new PraiseStickerItem("등하원 잘하기", R.drawable.sticker_1));
         adapter.addItem(new PraiseStickerItem("질서 지키기", R.drawable.sticker_1));
         adapter.addItem(new PraiseStickerItem("떠들지 않기", R.drawable.sticker_1));
         adapter.addItem(new PraiseStickerItem("뛰어 다니지 않기", R.drawable.sticker_1));
-        adapter.addItem(new PraiseStickerItem("떼쓰지 않기", R.drawable.sticker_1));
+
         adapter.addItem(new PraiseStickerItem("울음 그치기", R.drawable.sticker_1));
-        adapter.addItem(new PraiseStickerItem("책 읽기", R.drawable.sticker_1));
+
         adapter.addItem(new PraiseStickerItem("TV보는 시간 지키기", R.drawable.sticker_1));
         adapter.addItem(new PraiseStickerItem("방정리하기", R.drawable.sticker_1));
         adapter.addItem(new PraiseStickerItem("이불정리하기", R.drawable.sticker_1));
@@ -60,7 +69,7 @@ public class PraiseStickerChoice extends AppCompatActivity {
         adapter.addItem(new PraiseStickerItem("공부하기", R.drawable.sticker_1));
         adapter.addItem(new PraiseStickerItem("학원가기", R.drawable.sticker_1));
         adapter.addItem(new PraiseStickerItem("어른께인사하기", R.drawable.sticker_1));
-        adapter.addItem(new PraiseStickerItem("친구와인사하기", R.drawable.sticker_1));
+
         adapter.addItem(new PraiseStickerItem("감사표현하기", R.drawable.sticker_1));
         adapter.addItem(new PraiseStickerItem("사과하기", R.drawable.sticker_1));
         adapter.addItem(new PraiseStickerItem("바르게앉아서식사하기", R.drawable.sticker_1));
@@ -80,10 +89,7 @@ public class PraiseStickerChoice extends AppCompatActivity {
         adapter.addItem(new PraiseStickerItem("주사잘맞기", R.drawable.sticker_1));
         adapter.addItem(new PraiseStickerItem("이뽑기", R.drawable.sticker_1));
         adapter.addItem(new PraiseStickerItem("위험한장난하지않기", R.drawable.sticker_1));
-        adapter.addItem(new PraiseStickerItem("이닦기", R.drawable.sticker_1));
-        adapter.addItem(new PraiseStickerItem("세수하기", R.drawable.sticker_1));
-        adapter.addItem(new PraiseStickerItem("손씻기", R.drawable.sticker_1));
-        adapter.addItem(new PraiseStickerItem("목욕하기", R.drawable.sticker_1));
+
         adapter.addItem(new PraiseStickerItem("배변하기", R.drawable.sticker_1));
         adapter.addItem(new PraiseStickerItem("코파지않기", R.drawable.sticker_1));
         adapter.addItem(new PraiseStickerItem("주워먹지않기", R.drawable.sticker_1));
@@ -91,7 +97,7 @@ public class PraiseStickerChoice extends AppCompatActivity {
         adapter.addItem(new PraiseStickerItem("손가락빨지않기", R.drawable.sticker_1));
         adapter.addItem(new PraiseStickerItem("손톱물어뜯지않기", R.drawable.sticker_1));
         adapter.addItem(new PraiseStickerItem("더러운(속)옷갈아입기", R.drawable.sticker_1));
-        adapter.addItem(new PraiseStickerItem("친구들과사이좋게지내기", R.drawable.sticker_1));
+
         adapter.addItem(new PraiseStickerItem("양보하기", R.drawable.sticker_1));
         adapter.addItem(new PraiseStickerItem("음식나눠먹기", R.drawable.sticker_1));
         adapter.addItem(new PraiseStickerItem("화해하기", R.drawable.sticker_1));
@@ -100,7 +106,7 @@ public class PraiseStickerChoice extends AppCompatActivity {
         adapter.addItem(new PraiseStickerItem("남의의견에동의하기", R.drawable.sticker_1));
         adapter.addItem(new PraiseStickerItem("형제들과사이좋게지내기", R.drawable.sticker_1));
         adapter.addItem(new PraiseStickerItem("단체생활참여하기", R.drawable.sticker_1));
-        adapter.addItem(new PraiseStickerItem("동생돌보기", R.drawable.sticker_1));
+
         adapter.addItem(new PraiseStickerItem("반려동물먹이주기", R.drawable.sticker_1));
         adapter.addItem(new PraiseStickerItem("심부름하기", R.drawable.sticker_1));
         adapter.addItem(new PraiseStickerItem("옷정리하기", R.drawable.sticker_1));

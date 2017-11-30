@@ -18,7 +18,7 @@
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
-                <com.github.siyamed.shapeimageview.RoundedImageView
+            <com.github.siyamed.shapeimageview.RoundedImageView
                 android:id="@+id/roundedImageView_childImage"
                 android:layout_width="40dp"
                 android:layout_height="0dp"
@@ -28,31 +28,31 @@
                 app:siRadius="20dp"
                 app:siSquare="true" />
 
-            </LinearLayout>
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:id="@+id/name"
-            android:textStyle="bold"
-            android:textColor="#0e0e0e"
-            android:layout_marginLeft="0dp"
-            android:gravity="top|left|center_vertical"
-            android:text=""/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:id="@+id/name"
+                android:textStyle="bold"
+                android:textColor="#0e0e0e"
+                android:layout_marginLeft="0dp"
+                android:gravity="top|left|center_vertical"
+                android:text=""/>
 
-        <TextView
-            android:id="@+id/datetime"
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:textStyle="bold"
-            android:textColor="#0e0e0e"
-            android:gravity="top|left|center_vertical"
-            android:text=""/>
+            <TextView
+                android:id="@+id/datetime"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:textStyle="bold"
+                android:textColor="#0e0e0e"
+                android:gravity="top|left|center_vertical"
+                android:text=""/>
 
         </LinearLayout>
 
@@ -113,19 +113,30 @@
 
     <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#7ed6ec"
+        android:orientation="vertical">
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <ImageView
             android:id="@+id/praise_image"
             android:layout_width="match_parent"
-            android:layout_height="200dp" />
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="#7ed6ec"
-            android:orientation="vertical"></LinearLayout>
+            android:orientation="vertical">
+        </LinearLayout>
 
         <TextView
             android:id="@+id/praise_memo"
@@ -156,12 +167,12 @@
                 android:id="@+id/money"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:gravity="top|left|center_vertical"
-                android:paddingRight="3dp"
-                android:paddingTop="5dp"
-                android:text=""
+                android:textStyle="bold"
                 android:textColor="#0e0e0e"
-                android:textStyle="bold" />
+                android:paddingTop="5dp"
+                android:paddingRight="3dp"
+                android:gravity="top|left|center_vertical"
+                android:text=""/>
 
             <com.github.siyamed.shapeimageview.RoundedImageView
                 android:id="@+id/roundedImageView_love"
@@ -179,18 +190,18 @@
                 android:id="@+id/sayong_gbn"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:gravity="top|left|center_vertical"
-                android:paddingLeft="3dp"
-                android:paddingTop="5dp"
-                android:text=""
+                android:textStyle="bold"
                 android:textColor="#0e0e0e"
-                android:textStyle="bold" />
+                android:paddingTop="5dp"
+                android:paddingLeft="3dp"
+                android:gravity="top|left|center_vertical"
+                android:text=""/>
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="10dp"
+            android:layout_height="5dp"
             android:background="#efebef"
             android:orientation="vertical">
 
@@ -198,17 +209,11 @@
                 android:id="@+id/dot_image"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:src="@drawable/dott" />
+                android:scaleType="fitXY"
+                android:src="@drawable/dott"
+                />
 
         </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#7ed6ec"
-        android:orientation="vertical">
-
     </LinearLayout>
 
 </LinearLayout>

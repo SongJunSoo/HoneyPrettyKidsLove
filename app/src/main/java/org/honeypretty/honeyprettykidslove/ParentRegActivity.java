@@ -579,12 +579,12 @@ public class ParentRegActivity extends AppCompatActivity {
                 JSONObject json = new JSONObject(s);
                 if (json.getBoolean("result") == true) {// 가입 되어 있음
 //                    Toast.makeText(ParentRegActivity.this,
-//                            "가입 되어 있음",
+//                            "미가입 되어 있습니다.\n부모 정보를 등록해 주세요.",
 //                            Toast.LENGTH_SHORT).show();
                 } else {//가입 안되어 있음
-//                    Toast.makeText(ParentRegActivity.this,
-//                            "가입 안되어 있음",
-//                            Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ParentRegActivity.this,
+                            "미가입 되어 있습니다.\n부모 정보를 등록해 주세요.",
+                            Toast.LENGTH_SHORT).show();
                 }
             } catch (Exception e) { e.printStackTrace(); }
         }

@@ -278,11 +278,22 @@ public class KidsPresentRegActivity extends AppCompatActivity {
                 {
                     mCurrentPhotoPath = getPathFromUri(data.getData());
 
+                    ExifInterface exif = null;
+                    try {
+                        exif = new ExifInterface(mCurrentPhotoPath);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION,
+                            ExifInterface.ORIENTATION_UNDEFINED);
+
                     BitmapFactory.Options options = new BitmapFactory.Options();
                     options.inSampleSize = 2;
 
                     Bitmap src = BitmapFactory.decodeFile(mCurrentPhotoPath, options);
                     Bitmap bitmap = Bitmap.createScaledBitmap( src, src.getWidth(), src.getHeight(), true );
+
+                    bitmap = rotateBitmap(bitmap, orientation);
                     Bitmap bitmap2 = createThumbnail(bitmap, "test.jpg", "1", "1");
 
                     imageView.setImageBitmap(bitmap2);

@@ -626,9 +626,9 @@ public class KidsRegActivity extends AppCompatActivity {
                     Log.i("int_hpkl_id SJS", Integer.toString(int_hpkl_id));
 
                 } else {//가입 안되어 있음
-//                    Toast.makeText(KidsRegActivity.this,
-//                            "가입 안되어 있음",
-//                            Toast.LENGTH_SHORT).show();
+                    Toast.makeText(KidsRegActivity.this,
+                            "아이 정보가 없습니다.\n아이 정보를 등록해 주세요.",
+                            Toast.LENGTH_SHORT).show();
                 }
             } catch (Exception e) { e.printStackTrace(); }
         }
